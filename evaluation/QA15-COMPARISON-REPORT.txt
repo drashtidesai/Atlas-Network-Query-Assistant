@@ -1,0 +1,108 @@
+ATLAS NETWORK QUERY ASSISTANT
+15-QUESTION RETRIEVAL EVALUATION AND FAILURE ANALYSIS
+
+1. Scope
+The working Streamlit Q&A bot supports local BM25 and Pinecone/BM25 hybrid
+retrieval, LangGraph coverage routing, optional Nebius generation and citations.
+This report compares retrieval/routing on 15 fixed questions: 14 answerable and
+one nonexistent scenario. It does not score 15 generated answers. Earlier manual
+answer observations are identified separately below.
+
+2. Reproduction and controls
+Fixture: evaluation/qa15.json, version 1.0. Both runs used the same corpus and
+fixture hashes, verified from the saved JSON artifacts. Candidates: 20 per method;
+selected evidence: 20. Hybrid uses equal-weight RRF, 1/(60 + rank), not raw-score
+addition. No generation calls or automatic corpus changes occurred.
+Local run: qa15-local-20261101T121046328812Z
+Hybrid run: qa15-hybrid-20261101T121357259481Z
+Commands: uv run python evaluate_qa15.py --execute
+          uv run python evaluate_qa15.py --execute --method hybrid
+
+3. Metrics
+Authored evidence-anchor groups identify expected source sections. Alternatives
+within a group are interchangeable; separate groups require different facets.
+Hit@5: at least one expected anchor in the first five results.
+MRR@20: mean reciprocal rank of the first expected anchor, zero if absent.
+Anchor coverage@20: fraction of required groups represented in selected evidence.
+Retrieval averages exclude the missing-scenario question (14 cases). Route accuracy
+includes all 15. These anchors are not exhaustive relevance labels: coverage is
+not full relevance recall, and precision is not measured. This development set
+is small, authored and not held out.
+
+4. Measured results (original anchor labels retained)
+Metric                         BM25 local       Hybrid
+Hit@5                          11/14 (78.6%)    10/14 (71.4%)
+MRR@20                         0.767            0.586
+Mean anchor coverage@20        92.9%            92.9%
+Expected route matches         15/15 (100%)     15/15 (100%)
+Execution errors               0                0
+
+5. Per-question results
+Ranks below refer to the FIRST matching expected anchor, not necessarily the
+best or only relevant source. A dash means no expected anchor in selected top 20.
+ID   Topic                              Local rank  Hybrid rank  Coverage (both)
+Q01  Network device count               1           1            100%
+Q02  London VLAN and gateway            -           -              0%*
+Q03  DXB port-channel interfaces         1           7            100%
+Q04  WAN-B addressing                   1           4            100%
+Q05  WAN-A route preference             11          9            100%
+Q06  BFD detection versus recovery      1           1            100%
+Q07  BFD versus VRRP tracking           1           1            100%
+Q08  FAIL-01 silent WAN loss            2           4            100%
+Q09  FAIL-02 physical failure           1           1            100%
+Q10  FAIL-04 single Po1 member loss     1           1            100%
+Q11  FAIL-06 VLAN partition             7           3            100%
+Q12  TACACS explicit denial             1           1            100%
+Q13  FAIL-08 four management services   1           1            100%
+Q14  Limits of live-state evidence      1           9            100%
+Q15  Missing FAIL-99                    N/A         N/A          N/A
+Q15 correctly routed to missing_evidence in both runs. All other expected routes
+were evidence_review, which permits assessment rather than certifying an answer.
+The full questions, expected answers, selected text and provenance are in the
+fixture and run JSON artifacts. Multi-facet coverage is scored separately from
+the first matching anchor rank (notably Q08, Q09 and Q13).
+
+6. Failure analysis
+*Q02 ANNOTATION FALSE NEGATIVE: Both modes ranked the correct addressing.csv row
+first: LON-VRRP, VLAN 120, 10.20.20.1/24. The fixture accepted only LLD section 1,
+omitting this valid evidence. Zero anchor coverage must not be described as a
+failure to retrieve the gateway fact. Original scores are preserved for audit.
+A future version should add valid specific alternatives before new comparison
+runs; do not silently relabel this run or tune labels to one method.
+
+RANKING: Hybrid improved Q11's expected timeline rank from 7 to 3 and Q05 from
+11 to 9, but worsened Q03 (1 to 7), Q04 (1 to 4), Q08 (2 to 4), and Q14 (1 to 9).
+Equal-weight semantic/keyword fusion therefore did not improve aggregate anchor
+ranking on this set. The scores alone do not establish why or label every earlier
+result irrelevant. This supports retaining BM25 as a useful baseline rather than
+claiming hybrid superiority. Per-query results matter alongside averages.
+
+COVERAGE: Both modes selected all required anchor groups for 13 of 14 answerable
+cases under original labels. Selecting enough evidence is different from ranking
+it highly. Correct routing is also different from factual answer support.
+
+PREVIOUS MANUAL GENERATION FINDINGS (not scored by these runs): Some drafts confused
+the NTP server with its reporting router, the direct interrouter path with the
+interswitch link, and same-subnet bridging with inter-VLAN routing. Some conflated
+TACACS fallback with a separate console test or generalized beyond recorded log
+windows. Valid citation syntax did not establish factual entailment. The model
+reviewer falsely accepted a deliberately incorrect NTP host; the app therefore
+does not treat that reviewer as a correctness gate. A narrow structured host-role
+check caught the known NTP wording, but is not a general semantic validator.
+
+7. Learnings and recommended next steps
+- Evaluate keyword-only retrieval before assuming semantic fusion adds value.
+- Distinguish ranking, evidence coverage, routing and answer correctness.
+- Audit relevance labels and include legitimate alternative evidence sources.
+- Version fixtures and retain original results plus corpus hashes.
+- Expand independent relevance judgments and paraphrase cases before tuning fusion.
+- Assess end-to-end answers separately using expected facts and claim-level source
+  support; do not call these retrieval scores answer accuracy.
+- Keep evaluation files outside the ingested corpus and API keys outside Git.
+
+8. Deliverable status
+Working bot: demonstrated locally with local and hybrid retrieval, cited draft
+generation and missing-evidence handling. Two offline product checks passed.
+15-question retrieval report: completed for both methods with reproducible traces.
+15-question generated-answer accuracy report: not performed; no such score claimed.
+Fresh-clone reproducibility check: not yet confirmed in this report.

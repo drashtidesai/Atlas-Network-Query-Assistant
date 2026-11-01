@@ -1,0 +1,116 @@
+ATLAS NETWORK QUERY ASSISTANT - 15-QUESTION EVALUATION
+
+Run UTC: 2026-11-01T12:13:57.259481+00:00
+Retrieval: hybrid; candidates=20; selected evidence=20.
+Generation was not executed. This is a retrieval/routing evaluation, not answer-accuracy scoring.
+
+METHOD AND SCORE DEFINITIONS
+14 answerable cases plus one missing-scenario case; fixed authored anchors validated against the corpus.
+Alternatives within an anchor group are interchangeable; separate groups represent required evidence facets.
+Hit@5: at least one expected anchor appears in the first five selected results (0 or 1).
+MRR@20: mean reciprocal rank of the first expected anchor, or zero when absent.
+Anchor coverage@20: fraction of required evidence groups represented in the selected results.
+Scores average 14 answerable cases; missing-scenario retrieval metrics are N/A. Errors count as zero.
+Route accuracy uses all 15 cases. Anchors are not exhaustive relevance labels; precision is not measured.
+This small authored development set is not a held-out benchmark. Scores do not establish semantic answer correctness.
+
+MEASURED SUMMARY
+Hit@5: 0.714
+MRR@20: 0.586
+Mean anchor coverage@20: 0.929
+Route accuracy: 15/15
+Execution errors: 0
+
+PER-QUESTION RESULTS
+
+Q01: How many network devices are modeled across Dubai and London?
+Expected answer: Eight: two routers and two switches per site.
+Hit@5=1 | RR@20=1.0 | anchor coverage@20=1.0 | route correct=True
+Failure analysis: No failure under the anchor/routing criteria; answer accuracy not assessed.
+
+Q02: What is the London user VLAN and its virtual default gateway?
+Expected answer: VLAN 120, VIP 10.20.20.1; physical router IPs .2 and .3.
+Hit@5=0 | RR@20=0 | anchor coverage@20=0.0 | route correct=True
+Failure analysis: Expected anchor evidence absent from selected top 20.; Some required evidence facets were not retrieved.
+
+Q03: Which physical switch interfaces form DXB interswitch Port-channel1?
+Expected answer: Gi1/0/2 and Gi1/0/3 at both switch ends.
+Hit@5=0 | RR@20=0.14285714285714285 | anchor coverage@20=1.0 | route correct=True
+Failure analysis: Expected evidence found, but ranked below top 5.
+
+Q04: What are the WAN-B subnet and the DXB-R02 and LON-R02 WAN addresses?
+Expected answer: 10.0.0.4/30; DXB-R02 10.0.0.5, LON-R02 10.0.0.6.
+Hit@5=1 | RR@20=0.25 | anchor coverage@20=1.0 | route correct=True
+Failure analysis: No failure under the anchor/routing criteria; answer accuracy not assessed.
+
+Q05: Why is WAN-A preferred over WAN-B during normal operation?
+Expected answer: Local preference 200 for WAN-A versus 150 for WAN-B, propagated within each site over iBGP.
+Hit@5=0 | RR@20=0.1111111111111111 | anchor coverage@20=1.0 | route correct=True
+Failure analysis: Expected evidence found, but ranked below top 5.
+
+Q06: Does BFD configured at 300 ms times 3 guarantee traffic recovery within 900 ms?
+Expected answer: No. Approximately 900 ms is expected detection with matching negotiated intervals, not guaranteed end-to-end recovery.
+Hit@5=1 | RR@20=1.0 | anchor coverage@20=1.0 | route correct=True
+Failure analysis: No failure under the anchor/routing criteria; answer accuracy not assessed.
+
+Q07: Is BFD directly driving VRRP priority in this design?
+Expected answer: No. VRRP tracks physical WAN line protocol only; BFD drives BGP recovery.
+Hit@5=1 | RR@20=1.0 | anchor coverage@20=1.0 | route correct=True
+Failure analysis: No failure under the anchor/routing criteria; answer accuracy not assessed.
+
+Q08: In synthetic FAIL-01, why did the gateway stay on DXB-R01 even though traffic had to use the backup WAN?
+Expected answer: Carrier and tracking stayed up so R01 retained priority 120; BFD/BGP rerouted via R02 over the direct interrouter link to WAN-B.
+Hit@5=1 | RR@20=0.25 | anchor coverage@20=1.0 | route correct=True
+Failure analysis: No failure under the anchor/routing criteria; answer accuracy not assessed.
+
+Q09: In synthetic FAIL-02, what happened to DXB-R01 VRRP priority when its WAN line failed and when did it preempt after restoration?
+Expected answer: Priority 120 to 80; R02 takes over. R01 has a configured 30-second preemption wait on recovery; trace times are synthetic.
+Hit@5=1 | RR@20=1.0 | anchor coverage@20=1.0 | route correct=True
+Failure analysis: No failure under the anchor/routing criteria; answer accuracy not assessed.
+
+Q10: In synthetic FAIL-04, what happened when one DXB interswitch member cable failed?
+Expected answer: Po1 remained up with one 1-Gbps member; probes reported no sampled loss, not proof of zero sub-sample loss or tested throughput.
+Hit@5=1 | RR@20=1.0 | anchor coverage@20=1.0 | route correct=True
+Failure analysis: No failure under the anchor/routing criteria; answer accuracy not assessed.
+
+Q11: In synthetic FAIL-06, why did both Dubai routers become active gateways while same-subnet users on opposite switches lost contact?
+Expected answer: Po1 loss partitioned VLANs and VRRP advertisements; R02 timed out while R01 remained master. Cross-segment ARP failed, but remote London reachability remained in the trace.
+Hit@5=1 | RR@20=0.3333333333333333 | anchor coverage@20=1.0 | route correct=True
+Failure analysis: No failure under the anchor/routing criteria; answer accuracy not assessed.
+
+Q12: Does TACACS local fallback override an explicit authentication denial?
+Expected answer: No. Server timeout/unavailability can trigger fallback; an explicit denial does not.
+Hit@5=1 | RR@20=1.0 | anchor coverage@20=1.0 | route correct=True
+Failure analysis: No failure under the anchor/routing criteria; answer accuracy not assessed.
+
+Q13: In synthetic FAIL-08, what happened to TACACS+, syslog, SNMP and NTP during the management service failures?
+Expected answer: Separate TACACS timeout/fallback/denial tests; LOG-D1 missing locally within observed window; remote TRAP-E1 validation failed after secret mismatch; DXB-R02 selected remote NTP after local server application stopped.
+Hit@5=1 | RR@20=1.0 | anchor coverage@20=1.0 | route correct=True
+Failure analysis: No failure under the anchor/routing criteria; answer accuracy not assessed.
+
+Q14: Can these configuration files prove BGP is established on real hardware right now?
+Expected answer: No. The corpus is fictional and has no live operational state or telemetry.
+Hit@5=0 | RR@20=0.1111111111111111 | anchor coverage@20=1.0 | route correct=True
+Failure analysis: Expected evidence found, but ranked below top 5.
+
+Q15: In synthetic FAIL-99, what happened after WAN-A failed?
+Expected answer: Scenario missing; do not generate an event account from design guidance.
+Hit@5=None | RR@20=None | anchor coverage@20=None | route correct=True
+Failure analysis: No failure under the anchor/routing criteria; answer accuracy not assessed.
+
+PREVIOUS MANUAL ANSWER OBSERVATIONS (SEPARATE FROM THIS RUN)
+London gateway draft matched documented VLAN 120 and VIP 10.20.20.1.
+FAIL-01 drafts sometimes confused the routed interrouter link with the interswitch link.
+FAIL-06 at evidence limit 10 confused same-subnet bridging with inter-VLAN routing and overstated lost connectivity.
+FAIL-08 drafts misplaced the local NTP application on DXB-R02 and sometimes merged TACACS fallback and console subtests.
+A model reviewer falsely accepted the wrong NTP host in a fixed two-case test (one correct acceptance, one false acceptance).
+A narrow topology-based wording check caught that known NTP error; it is not general factual validation.
+20/15/10 evidence-limit comparison was exploratory, not a controlled repeated quality experiment.
+
+LEARNINGS AND NEXT STEPS
+Separate retrieval ranking, evidence coverage, routing and answer correctness.
+Use low top-5 hits to investigate ranking; incomplete facet coverage to investigate selection; wrong routes to investigate gating.
+Review citations at claim level. Test paraphrases and negatives; expand independent labels before claiming general quality.
+Re-run with hybrid mode separately to compare measured retrieval on the same fixtures; this consumes Pinecone quota.
+Corpus SHA256: ee4eb28febfb5fbbd320461efc541527815e89e6f8b09df7e1f4b69bcee23258
+Fixture SHA256: 8f482c9e2d99c01a9a46672ef9ec2db4697da7493b671450492daaedec93d921

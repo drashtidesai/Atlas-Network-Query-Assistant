@@ -1,4 +1,4 @@
-"""Atlas Network Evidence Assistant. Launch: uv run streamlit run app.py"""
+"""Atlas Network Query Assistant. Launch: uv run streamlit run app.py"""
 
 import json
 
@@ -8,7 +8,7 @@ from check_chunk_lengths import DEFAULT_EXPORT, read_chunks
 from product_pipeline import generate_product, retrieve_product
 
 
-st.set_page_config(page_title="Atlas | Network Evidence", page_icon="🌐", layout="wide")
+st.set_page_config(page_title="Atlas Network Query Assistant", page_icon="🌐", layout="wide")
 
 
 @st.cache_data(show_spinner=False)
@@ -16,7 +16,7 @@ def load_export(modified_ns: int) -> list[dict]:
     return read_chunks(DEFAULT_EXPORT)
 
 
-st.title("Atlas Network Evidence Assistant")
+st.title("Atlas Network Query Assistant")
 st.write("Explore network designs, configurations and failure scenarios with traceable sources.")
 st.caption("Fictional training network · Synthetic logs · Answers are unverified drafts")
 

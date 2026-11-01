@@ -1,0 +1,50 @@
+15-QUESTION LOCAL RETRIEVAL EVALUATION - ANALYST NOTES
+
+Run: qa15-local-20261101T121046328812Z
+Configuration: BM25 only; 20 candidates; 20 selected evidence chunks.
+14 answerable questions and one missing-scenario question. No generation calls.
+
+Measured original-anchor scores
+- Hit@5: 11/14 = 78.6%.
+- MRR@20: 0.767 (rounded).
+- Mean required-anchor coverage@20: 13/14 = 92.9%.
+- Expected route matched: 15/15 = 100%.
+- Execution errors: zero.
+These are retrieval/routing scores, not answer accuracy. Anchor coverage is not
+exhaustive relevance recall, and precision was not measured.
+
+Q02 - label limitation, not a demonstrated factual retrieval miss
+The benchmark named only LLD section 1 as its expected evidence. That anchor was
+not selected, so the recorded score is zero. However, the rank-1 result is the
+addressing.csv row for LON-VRRP, VLAN 120, 10.20.20.1/24. This directly supports
+the question's main facts. Ranks 6 and 9 contain the London physical user gateways.
+The original annotation therefore omits valid alternative evidence and produces
+a false negative. Preserve the original result; do not characterize it as a bot
+failure or silently revise the published score. A versioned benchmark revision
+should add the specific addressing row and be evaluated again for both modes.
+
+Q05 and Q11 - ranking weakness
+Expected anchors appeared within the selected top 20 but outside the top 5.
+Evidence availability and high-rank relevance are separate properties. This run
+establishes the position of authored anchors, not whether every earlier result
+was irrelevant. Inspect the saved trace before attributing a cause.
+
+Other measured observations
+All required anchor groups were selected for Q08, Q09 and Q13, which require
+multiple evidence facets. Q15 correctly returned missing_evidence without a key.
+Correct routes do not prove relevance, semantic sufficiency or factual accuracy.
+
+Previously observed generation failures (not a scored 15-answer evaluation)
+- NTP application attributed to the reporting router rather than its server.
+- FAIL-01 direct interrouter path confused with the interswitch path.
+- FAIL-06 same-subnet bridging confused with inter-VLAN routing; outage scope
+  overstated despite recorded remote connectivity.
+- TACACS timeout fallback conflated with a separate console-login subtest.
+- Model reviewer falsely accepted an incorrect NTP host.
+
+Conclusion
+The local pipeline is operational and coverage routing behaved as expected on
+this authored development set. Ranking needs further evaluation, and annotation
+quality matters: Q02 shows that a strict reference-source match can penalize
+correct evidence. Report these results as a BM25 baseline. Hybrid retrieval and
+end-to-end generated-answer accuracy are not scored by this run.
