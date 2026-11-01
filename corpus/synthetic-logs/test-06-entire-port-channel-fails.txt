@@ -1,0 +1,21 @@
+SYNTHETIC=true | scenario_id=FAIL-06 | Entire DXB interswitch port channel fails
+Assigned simulated event times on 2026-10-24 UTC; not hardware observations.
+Independent scenario using intended baseline; normalized teaching records.
+2026-10-24T08:50:09.990Z | DXB-R02 | STATE | VRRP_110=backup VRRP_199=backup priority=100 last_master_advertisement=2026-10-24T08:50:09.990Z
+2026-10-24T08:50:09.991Z | PROBE-DXB-SW02 | PROBE | phase=baseline destination=LON_user result=success gateway_owner=DXB-R01 path=DXB-SW02>Po1>DXB-SW01>DXB-R01>WAN-A>LON-R01
+2026-10-24T08:50:09.992Z | PROBE-DXB-SW01 | PROBE | phase=baseline destination=LON_user result=success gateway_owner=DXB-R01 WAN=WAN-A
+2026-10-24T08:50:09.993Z | PROBE-DXB-SW02 | PROBE | phase=baseline destination=same_subnet_user_on_SW01 result=success ARP=resolved path=Po1
+2026-10-24T08:50:10.000Z | HARNESS | INJECTION | both DXB Po1 member cables removed; router trunks, WANs and direct iBGP link untouched
+2026-10-24T08:50:10.010Z | DXB-SW01 | EVENT | Gi1/0/2=down Gi1/0/3=down Port-channel1=down
+2026-10-24T08:50:10.012Z | DXB-SW02 | EVENT | Gi1/0/2=down Gi1/0/3=down Port-channel1=down
+2026-10-24T08:50:11.000Z | DXB-R01 | STATE | Gi0/0/1.110=up Gi0/0/1.199=up VRRP_110=master VRRP_199=master priority=120
+2026-10-24T08:50:13.599Z | DXB-R02 | EVENT | VRRP_110 backup->master VRRP_199 backup->master reason=master_down_timer_expired
+2026-10-24T08:50:14.000Z | DXB-R01 | STATE | segment=SW01 VRRP_110=master VIP=10.10.10.1 VRRP_199=master VIP=10.10.99.1; iBGP=established eBGP_WAN_A=established
+2026-10-24T08:50:14.010Z | DXB-R02 | STATE | segment=SW02 VRRP_110=master VIP=10.10.10.1 VRRP_199=master VIP=10.10.99.1; iBGP=established eBGP_WAN_B=established
+2026-10-24T08:50:15.000Z | PROBE-DXB-SW02 | PROBE | destination=same_subnet_user_on_SW01 result=ARP_timeout; destination=LON_user result=success; local_gateway_owner=DXB-R02
+2026-10-24T08:50:15.100Z | PROBE-DXB-SW01 | PROBE | destination=LON_user result=success local_gateway_owner=DXB-R01
+2026-10-24T08:50:30.000Z | HARNESS | RESTORE | both DXB Po1 member cables reconnected
+2026-10-24T08:50:31.000Z | DXB-SW01 | STATE | Port-channel1=up active_members=Gi1/0/2;Gi1/0/3
+2026-10-24T08:50:31.010Z | DXB-SW02 | STATE | Port-channel1=up active_members=Gi1/0/2;Gi1/0/3
+2026-10-24T08:50:31.100Z | DXB-R02 | EVENT | VRRP_110 master->backup VRRP_199 master->backup reason=higher_priority_master_advertisement peer_priority=120
+2026-10-24T08:50:32.000Z | PROBE-DXB-SW02 | PROBE | destination=same_subnet_user_on_SW01 result=success; gateway_owner=DXB-R01; restoration_transition_loss_duration=not_sampled

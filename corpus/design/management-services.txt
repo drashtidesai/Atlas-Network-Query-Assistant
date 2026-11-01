@@ -1,0 +1,17 @@
+Document OPS-001 | Revision 2.0 | 2026-10-21
+Fictional service specification. Servers are documented endpoints, not installed applications.
+
+1. Server placement
+services.csv defines eight static server addresses, default gateways, VLANs, switch access ports, roles and protocols. Each site uses .10 syslog, .11 SNMP manager, .12 TACACS+, .13 NTP in 10.<site>.99.0/24. Both sites use gateway .1. Services are separate logical hosts single-attached to SW01. SW02 has four reserved, shutdown ports for a future attachment design; do not attach the same IP twice.
+
+2. Syslog
+Device configuration sends informational-and-higher messages to both receivers on UDP 514 and maintains a 65536-byte local buffer. Receiver must bind/listen on UDP 514, allow the eight device management IPs, retain timestamps and source identity, and store/rotate messages per hostname. Transport has neither TLS nor delivery acknowledgement. This is a teaching baseline; no receiver daemon has been deployed.
+
+3. SNMP
+Managers poll the eight unique management IPs using SNMPv3 authPriv, username nms-reader, SHA authentication and AES-128 privacy, with secrets matching substituted device placeholders. Polling uses UDP 161 on devices and traps UDP 162 on managers. Device ACL allows only 10.10.99.11 and 10.20.99.11. NMS-READ is a read-only view of iso; no SNMP write view or v1/v2c community is configured. Configure trap receiver engine/user handling for each sender on the selected NMS. SNMP user secrets may not appear in show running-config; inspect show snmp user separately. A manager application, polling schedule and MIB inventory are not installed by these files.
+
+4. TACACS+
+Each device references local and remote TACACS+ servers, timeout 3 seconds per configured server, source unique management IP, TCP 49. In the server, register all eight device management IPs with their matching device-relative key. DXB device TACACS_LOCAL must match DXB AAA server and TACACS_REMOTE must match LON; reverse this for LON devices. Prefer unique per-device keys when implementing. Configure an authorized lab-admin identity, shell privilege 15, command authorization for intended lab commands and accounting retention. Server software selection, identity-store integration and server-specific policy syntax are not supplied. Never interpret local fallback as bypassing an explicit TACACS denial. <REDACTED> is the console/break-glass placeholder; test via console before enabling remote AAA in a lab.
+
+5. NTP and access
+Provide actual time service on each .13 server; devices prefer the local one and can use the remote. UTC timestamps support correlation. Management SSH access is limited to the two management subnets. These ACLs are service restrictions, not a complete management security boundary: routed interfaces do not have a comprehensive infrastructure ACL, control-plane policy or management VRF. Platform defaults, crypto policy and server-side firewalls require validation for a deployment. Client endpoints use static addresses; no DHCP/DNS application is included.

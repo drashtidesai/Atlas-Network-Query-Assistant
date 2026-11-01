@@ -1,0 +1,16 @@
+SYNTHETIC=true | scenario_id=FAIL-01 | WAN-A silent loss with Ethernet up
+Assigned simulated event times on 2026-10-24 UTC; not hardware observations.
+Independent scenario using intended baseline; normalized teaching records.
+2026-10-24T08:00:00.000Z | DXB-R01 | STATE | wan=Gi0/0/0 physical=up line_protocol=up track10=up; BFD_peer=10.0.0.2 state=up negotiated_tx_ms=300 negotiated_rx_ms=300 multiplier=3 echo=disabled; VRRP_110=master VRRP_199=master priority=120
+2026-10-24T08:00:00.010Z | DXB-R02 | STATE | eBGP_peer=10.0.0.6 state=established; prefix=10.20.20.0/24 best_next_hop=10.10.254.1 best_local_pref=200 alternate_next_hop=10.0.0.6 alternate_local_pref=150; VRRP_110=backup VRRP_199=backup priority=100
+2026-10-24T08:00:00.020Z | LON-R01 | STATE | BFD_peer=10.0.0.1 state=up negotiated_rx_ms=300 multiplier=3; eBGP_peer=10.0.0.1 state=established
+2026-10-24T08:00:09.900Z | PROBE-DXB-SW02 | PROBE | phase=baseline destination=LON_user result=success gateway_owner=DXB-R01 path=DXB-SW02>Po1>DXB-SW01>DXB-R01>WAN-A>LON-R01 sampling_ms=100
+2026-10-24T08:00:10.000Z | HARNESS | INJECTION | WAN-A data and control packets dropped both directions; Ethernet carrier held up; last_BFD_received_at_both_endpoints=2026-10-24T08:00:10.000Z
+2026-10-24T08:00:10.900Z | DXB-R01 | EVENT | BFD_peer=10.0.0.2 up->down reason=control_detection_expired; eBGP_peer=10.0.0.2 established->idle reason=BFD
+2026-10-24T08:00:10.900Z | LON-R01 | EVENT | BFD_peer=10.0.0.1 up->down reason=control_detection_expired; eBGP_peer=10.0.0.1 established->idle reason=BFD
+2026-10-24T08:00:11.030Z | DXB-R02 | EVENT | prefix=10.20.20.0/24 best_next_hop=10.0.0.6 local_pref=150; advertised_to_iBGP_peer=10.10.254.1
+2026-10-24T08:00:11.050Z | LON-R02 | EVENT | prefix=10.10.10.0/24 best_next_hop=10.0.0.5 local_pref=150; advertised_to_iBGP_peer=10.20.254.1
+2026-10-24T08:00:11.200Z | DXB-R01 | STATE | prefix=10.20.20.0/24 FIB_next_hop=10.10.254.2; wan_physical=up track10=up VRRP_110=master VRRP_199=master priority=120
+2026-10-24T08:00:11.220Z | LON-R01 | STATE | prefix=10.10.10.0/24 FIB_next_hop=10.20.254.2; VRRP_120=master VRRP_99=master priority=120
+2026-10-24T08:00:11.300Z | PROBE-DXB-SW02 | PROBE | destination=LON_user sampling_ms=100 first_failed=2026-10-24T08:00:10.000Z first_subsequent_success=2026-10-24T08:00:11.300Z sampled_failure_window_ms=1300 path=DXB-R01>DXB-R02>WAN-B>LON-R02; continuous_recovery_time_between_samples=unknown
+2026-10-24T08:00:20.000Z | DXB-R01 | STATE | iBGP=established eBGP_WAN_A=idle track10=up VRRP_110=master VRRP_199=master

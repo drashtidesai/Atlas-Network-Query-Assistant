@@ -1,0 +1,17 @@
+id,question,expected_answer,evidence
+1,How many network devices are modeled?,8: two routers and two switches per site.,HLD-001; devices.csv
+2,What is the London user gateway?,"VRRP 10.20.20.1, VLAN 120; physical router IPs .2/.3.",LLD-001; LON configs
+3,Which interfaces form DXB interswitch Po1?,Gi1/0/2 and Gi1/0/3 on both DXB switches.,links.csv; switch configs
+4,What is WAN-B addressing?,"10.0.0.4/30; DXB-R02 .5, LON-R02 .6.",links.csv; router configs
+5,Which WAN is preferred and why?,"WAN-A by inbound local preference 200 vs WAN-B 150, shared by iBGP.",HLD; WAN-IN route maps
+6,What does 300 ms x 3 promise?,"About 900-ms BFD detection under matching negotiation, not guaranteed traffic restoration.",LLD section 2
+7,Is BFD directly driving VRRP here?,No. BFD drives BGP; VRRP tracks physical WAN line protocol only.,LLD section 3
+8,What happens on silent WAN-A failure?,BFD/BGP removes WAN-A; R01 may retain VIP and use R02 via iBGP then WAN-B.,FAIL-001 case 1
+9,What are VRRP priorities when R01 WAN line fails?,"R01 120->80, healthy R02 100; R02 can preempt.",router configs; FAIL-001
+10,Can all VLANs survive total Po1 failure without partition?,No; isolated segments can each elect a VRRP master.,FAIL-001 case 6
+11,What is the gateway?,Clarify site and user versus management VLAN.,LLD; addressing.csv
+12,Which server should I check?,"Clarify site and service: syslog, SNMP, TACACS or NTP.",services.csv
+13,Is BGP established right now?,Cannot establish from generated configuration; need operational evidence.,HLD section 5
+14,What is the measured failover SLA?,No measured SLA; tests not executed. Detection estimates are not end-to-end measurements.,FAIL-001
+15,Does TACACS local fallback override an explicit deny?,"No; fallback on server error/unreachability, not an explicit rejection.",OPS-001; FAIL-001 case 8
+16,Does DXB-R01's latest configuration snapshot match the approved remote AS for its WAN-A BGP neighbor?,No. Snapshot DXB-R01-20261021T120000Z configures neighbor 10.0.0.2 remote-as 65030; the approved DXB baseline and LON-R01 router bgp configure AS 65020. Identify the mismatch and cite snapshot plus baseline/design or peer config. This may prevent the intended BGP adjacency; no operational output confirms actual state.,running-config-snapshots/DXB-R01_running-config_2026-10-21T120000Z.txt; intended-configs/DXB-R01.txt; intended-configs/LON-R01.txt; LLD-001

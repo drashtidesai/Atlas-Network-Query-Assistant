@@ -1,0 +1,23 @@
+SYNTHETIC=true | scenario_id=FAIL-02 | WAN-A physical failure and recovery
+Assigned simulated event times on 2026-10-24 UTC; not hardware observations.
+Independent scenario using intended baseline; normalized teaching records.
+2026-10-24T08:10:00.000Z | DXB-R01 | STATE | Gi0/0/0=up track10=up VRRP_110=master VRRP_199=master priority=120 preempt_delay_s=30; prefix=10.20.20.0/24 next_hop=10.0.0.2 local_pref=200
+2026-10-24T08:10:00.010Z | DXB-R02 | STATE | VRRP_110=backup VRRP_199=backup priority=100 eBGP_WAN_B=established iBGP=established
+2026-10-24T08:10:09.900Z | PROBE-DXB-SW02 | PROBE | phase=baseline destination=LON_user result=success gateway_owner=DXB-R01 path=DXB-SW02>Po1>DXB-SW01>DXB-R01>WAN-A>LON-R01
+2026-10-24T08:10:10.000Z | HARNESS | INJECTION | WAN-A DXB carrier removed
+2026-10-24T08:10:10.010Z | DXB-R01 | EVENT | Gi0/0/0 line_protocol=down; eBGP_peer=10.0.0.2 established->idle reason=interface_down
+2026-10-24T08:10:10.020Z | DXB-R01 | EVENT | track10 up->down; VRRP_110_priority=80 VRRP_199_priority=80 decrement=40
+2026-10-24T08:10:10.030Z | DXB-R01 | EVENT | BFD_peer=10.0.0.2 state=down reason=interface_down
+2026-10-24T08:10:10.210Z | DXB-R02 | STATE | prefix=10.20.20.0/24 best_next_hop=10.0.0.6 local_pref=150; iBGP_peer=10.10.254.1 state=established
+2026-10-24T08:10:10.350Z | DXB-R01 | STATE | prefix=10.20.20.0/24 FIB_next_hop=10.10.254.2
+2026-10-24T08:10:10.900Z | LON-R01 | EVENT | eBGP_peer=10.0.0.1 established->idle reason=BFD_expired
+2026-10-24T08:10:13.700Z | DXB-R02 | EVENT | VRRP_110 backup->master VIP=10.10.10.1; VRRP_199 backup->master VIP=10.10.99.1 priority=100
+2026-10-24T08:10:13.720Z | DXB-R01 | STATE | VRRP_110=backup VRRP_199=backup priority=80
+2026-10-24T08:10:14.000Z | PROBE-DXB-SW02 | PROBE | destination=LON_user result=success gateway_owner=DXB-R02 WAN=WAN-B; transition_loss_duration=not_sampled
+2026-10-24T08:11:00.000Z | HARNESS | RESTORE | WAN-A carrier restored
+2026-10-24T08:11:00.010Z | DXB-R01 | EVENT | Gi0/0/0 line_protocol=up track10=up; VRRP_priority=120 preempt_wait_started=2026-10-24T08:11:00.010Z delay_s=30
+2026-10-24T08:11:01.500Z | DXB-R01 | STATE | BFD_peer=10.0.0.2 state=up eBGP_peer=10.0.0.2 state=established; prefix=10.20.20.0/24 next_hop=10.0.0.2 local_pref=200; VRRP_110=backup VRRP_199=backup
+2026-10-24T08:11:01.700Z | DXB-R02 | STATE | prefix=10.20.20.0/24 best_next_hop=10.10.254.1 local_pref=200; VRRP_110=master VRRP_199=master
+2026-10-24T08:11:02.000Z | PROBE-DXB-SW02 | PROBE | destination=LON_user result=success path=DXB-R02>DXB-R01>WAN-A
+2026-10-24T08:11:30.010Z | DXB-R01 | EVENT | preempt_wait_complete; VRRP_110 backup->master VRRP_199 backup->master priority=120
+2026-10-24T08:11:30.030Z | DXB-R02 | EVENT | VRRP_110 master->backup VRRP_199 master->backup priority=100

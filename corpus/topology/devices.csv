@@ -1,0 +1,9 @@
+hostname,site,role,model,software_target,management_ip,loopback,asn
+DXB-R01,DXB,WAN router,Cisco C8300-1N1S-4T2X,IOS XE 17.12.x autonomous mode,10.10.99.2,10.255.10.1/32,65010
+DXB-R02,DXB,WAN router,Cisco C8300-1N1S-4T2X,IOS XE 17.12.x autonomous mode,10.10.99.3,10.255.10.2/32,65010
+DXB-SW01,DXB,Layer 2 access switch,Cisco C9200L-24T-4X,IOS XE 17.12.x,10.10.99.21,,
+DXB-SW02,DXB,Layer 2 access switch,Cisco C9200L-24T-4X,IOS XE 17.12.x,10.10.99.22,,
+LON-R01,LON,WAN router,Cisco C8300-1N1S-4T2X,IOS XE 17.12.x autonomous mode,10.20.99.2,10.255.20.1/32,65020
+LON-R02,LON,WAN router,Cisco C8300-1N1S-4T2X,IOS XE 17.12.x autonomous mode,10.20.99.3,10.255.20.2/32,65020
+LON-SW01,LON,Layer 2 access switch,Cisco C9200L-24T-4X,IOS XE 17.12.x,10.20.99.21,,
+LON-SW02,LON,Layer 2 access switch,Cisco C9200L-24T-4X,IOS XE 17.12.x,10.20.99.22,,

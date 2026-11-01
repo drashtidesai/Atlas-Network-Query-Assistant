@@ -1,0 +1,24 @@
+Document REF-001 | Revision 2.0 | checked 2026-10-21
+Author-written training notes with primary-source links, not copied vendor manuals.
+
+1. Cisco BFD for BGP: configure BFD parameters on the interface and register the BGP neighbor with fall-over bfd. A configured neighbor is not proof of a live BFD session.
+https://www.cisco.com/c/en/us/td/docs/routers/ios/config/17-x/ip-routing/b-ip-routing/m_irg-sup-for-bfd.html
+https://www.cisco.com/c/en/us/td/docs/routers/ios/config/17-x/ip-routing/b-ip-routing/m_irb-bi-fwd-det-0-1.html
+
+2. Cisco VRRP command reference: VIP, priority, advertisement, preemption and object tracking are separate controls. Group IDs and VLAN IDs are independent.
+https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/ipapp_fhrp/command/fhp-cr-book/fhp-v1.html
+
+3. Cisco C8300 hardware naming: Gi0/0/0 through Gi0/0/3 occur in this platform family; exact model ports must be confirmed.
+https://www.cisco.com/c/en/us/td/docs/routers/cloud_edge/c8300/hardware_installation/b-catalyst-8300-series-edge-platforms-hig/m-overview.html
+
+4. Cisco TACACS configuration examples: named servers, server groups, authentication, authorization and accounting require server-side counterparts.
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-18/configuration_guide/sec/b_1718_sec_9300_cg/configuring_tacacs_.html
+The example guide is for a different Catalyst platform/release; use it for command concepts, not exact 17.12 platform certification.
+
+5. Cisco SNMPv3 model: define a read view/group, user with authentication/privacy and allowed managers, plus notification destinations.
+https://netascode.cisco.com/docs/data_models/iosxe/device/snmp_server/
+
+6. Standards to consult: BGP RFC 4271, BFD RFC 5880, IPv4/IPv6 VRRP RFC 5798 (VRRPv3, not the VRRPv2 syntax used in this corpus). Protocol specifications alone do not validate platform configuration syntax.
+https://www.rfc-editor.org/rfc/rfc4271.html
+https://www.rfc-editor.org/rfc/rfc5880.html
+https://www.rfc-editor.org/rfc/rfc5798.html

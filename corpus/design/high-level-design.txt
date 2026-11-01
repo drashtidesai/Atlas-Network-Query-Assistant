@@ -1,0 +1,17 @@
+Document HLD-001 | Revision 2.0 | 2026-10-21
+Atlas Retail: entirely fictional training corpus.
+
+1. Scope
+Two sites: Dubai (DXB), AS 65010; London (LON), AS 65020. Each site has two C8300 routers and two independent C9200L switches: eight network devices total. IOS XE 17.12.x is a target syntax family, not a certification of an exact release. Two independent 1-Gbps carrier Ethernet circuits provide WAN-A (R01 to R01) and WAN-B (R02 to R02). Carrier physical diversity is a design assumption requiring real procurement evidence.
+
+2. LAN and gateways
+Each router connects by one 802.1Q trunk to its corresponding switch. Switches share a two-member LACP port channel. User and management VLANs span both switches at that site. VRRP on routers supplies a .1 virtual gateway per subnet; R01 and R02 use .2 and .3. R01 has priority 120; R02 100. Switches perform Layer 2 forwarding only. No cross-chassis EtherChannel, stacking, or multichassis LAG is assumed.
+
+3. WAN routing
+Direct eBGP on each WAN uses BFD. A dedicated routed interrouter link runs direct iBGP with BFD and next-hop-self. WAN-A-learned remote routes receive local preference 200, WAN-B routes 150. The preferred normal intersite path is WAN-A from both routers at both sites. On failure, existing alternative paths can use WAN-B; VRRP gateway movement is not required for every WAN failure. Exact prefix filters limit advertisements to the documented site user and management networks and router loopbacks. There is no default route, Internet edge, NAT, DHCP server, or IPv6 in this lab.
+
+4. Management
+Each site has a syslog receiver, SNMPv3 manager, TACACS+ server, and NTP server in its management VLAN. All network devices use their unique management address as the service source, not the VRRP VIP. Remote-site service destinations supplement local services. Servers are individually single-attached to SW01; remote-site services improve continuity but do not create server clustering or recover local logs that were never delivered.
+
+5. Evidence boundaries
+Design documents and intended-configs/ show approved intent and baseline configuration. running-config-snapshots/ contains separately timestamped synthetic observations for configuration comparison; use these for questions about the simulated captured state and identify their snapshot ID. All snapshots are fictional, not collected from hardware. A newer snapshot does not supersede approved design intent. No live state, telemetry, convergence measurements, or physical optic compatibility evidence exists. Report unavailable evidence explicitly.

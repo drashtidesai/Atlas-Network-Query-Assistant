@@ -1,0 +1,22 @@
+SYNTHETIC=true | scenario_id=FAIL-07 | Direct DXB iBGP failure, then compound failure
+Assigned simulated event times on 2026-10-24 UTC; not hardware observations.
+Independent scenario using intended baseline; normalized teaching records.
+2026-10-24T09:00:00.000Z | DXB-R02 | STATE | prefix=10.20.20.0/24 best_next_hop=10.10.254.1 local_pref=200 alternate_next_hop=10.0.0.6 alternate_local_pref=150; iBGP=established
+2026-10-24T09:00:09.900Z | PROBE-DXB-SW02 | PROBE | phase=baseline destination=LON_user result=success gateway_owner=DXB-R01 path=DXB-SW02>Po1>DXB-SW01>DXB-R01>WAN-A>LON-R01
+2026-10-24T09:00:10.000Z | HARNESS | INJECTION | silently drop control/data packets on DXB direct iBGP link; physical_carrier=up; last_BFD_received_both_ends=2026-10-24T09:00:10.000Z
+2026-10-24T09:00:10.900Z | DXB-R01 | EVENT | BFD_peer=10.10.254.2 up->down reason=control_detection_expired; iBGP_peer=10.10.254.2 established->idle
+2026-10-24T09:00:10.900Z | DXB-R02 | EVENT | BFD_peer=10.10.254.1 up->down reason=control_detection_expired; iBGP_peer=10.10.254.1 established->idle
+2026-10-24T09:00:11.100Z | DXB-R01 | STATE | eBGP_WAN_A=established prefix=10.20.20.0/24 next_hop=10.0.0.2 local_pref=200 VRRP_110=master VRRP_199=master
+2026-10-24T09:00:11.110Z | DXB-R02 | STATE | eBGP_WAN_B=established prefix=10.20.20.0/24 next_hop=10.0.0.6 local_pref=150 VRRP_110=backup VRRP_199=backup
+2026-10-24T09:00:12.000Z | PROBE-DXB-SW02 | PROBE | destination=LON_user result=success gateway_owner=DXB-R01 WAN=WAN-A
+2026-10-24T09:00:12.100Z | DXB-R02 | PROBE | locally_originated destination=10.0.0.6 source=10.0.0.5 result=success; scope=WAN-B_direct_peer_only
+2026-10-24T09:00:19.900Z | PROBE-DXB-SW02 | PROBE | phase=pre_compound_fault destination=LON_user result=success gateway_owner=DXB-R01 WAN=WAN-A direct_iBGP=down
+2026-10-24T09:00:20.000Z | HARNESS | INJECTION | additional WAN-A silent loss; WAN-A Ethernet remains up; direct_iBGP_still_blocked=true
+2026-10-24T09:00:20.900Z | DXB-R01 | EVENT | BFD_peer=10.0.0.2 up->down; eBGP_peer=10.0.0.2 established->idle
+2026-10-24T09:00:20.900Z | LON-R01 | EVENT | BFD_peer=10.0.0.1 up->down; eBGP_peer=10.0.0.1 established->idle
+2026-10-24T09:00:21.200Z | DXB-R01 | STATE | prefix=10.20.20.0/24 route=absent default_route=absent; track10=up VRRP_110=master VRRP_199=master priority=120
+2026-10-24T09:00:21.210Z | DXB-R02 | STATE | eBGP_WAN_B=established prefix=10.20.20.0/24 next_hop=10.0.0.6; VRRP_110=backup VRRP_199=backup
+2026-10-24T09:00:22.000Z | PROBE-DXB-SW02 | PROBE | destination=LON_user result=unreachable gateway_owner=DXB-R01
+2026-10-24T09:00:30.000Z | HARNESS | RESTORE | unblock direct iBGP link only; WAN-A remains silently blocked
+2026-10-24T09:00:31.500Z | DXB-R01 | STATE | BFD_peer=10.10.254.2 state=up iBGP=established; prefix=10.20.20.0/24 next_hop=10.10.254.2 local_pref=150
+2026-10-24T09:00:31.800Z | PROBE-DXB-SW02 | PROBE | destination=LON_user result=success path=DXB-R01>DXB-R02>WAN-B

@@ -1,0 +1,59 @@
+SYNTHETIC=true | scenario_id=FAIL-08 | Management service timeout, denial and delivery
+Assigned simulated event times on 2026-10-24 UTC; not hardware observations.
+Independent scenario using intended baseline; normalized teaching records.
+2026-10-24T09:10:00.000Z | DXB-R02 | STATE | management_source=10.10.99.3 TAC_GROUP_order=TAC-LOCAL;TAC-REMOTE TAC_timeout_s=3 console_auth=local console_authorization=disabled
+2026-10-24T09:10:09.800Z | DXB-AAA01 | SERVER | phase=baseline auth_id=BASE-A source=10.10.99.3 user=lab-admin authentication=accept exec_authorization=accept
+2026-10-24T09:10:09.850Z | DXB-R02 | EVENT | phase=baseline auth_id=BASE-A authentication=success exec_authorization=success method=TACACS_LOCAL local_fallback_used=false
+2026-10-24T09:10:09.900Z | PROBE-DXB-SW02 | PROBE | phase=baseline destination=LON_user result=success gateway_owner=DXB-R01 WAN=WAN-A
+2026-10-24T09:10:10.000Z | HARNESS | INJECTION | subtest=08A local_TACACS_unreachable remote_TACACS_available
+2026-10-24T09:10:11.000Z | DXB-R02 | EVENT | auth_id=A1 user=lab-admin method=TAC-GROUP server=TAC-LOCAL address=10.10.99.12 request=sent
+2026-10-24T09:10:14.000Z | DXB-R02 | EVENT | auth_id=A1 server=TAC-LOCAL result=timeout elapsed_ms=3000; next_server=TAC-REMOTE address=10.20.99.12
+2026-10-24T09:10:14.080Z | LON-AAA01 | SERVER | auth_id=A1 source=10.10.99.3 result=accept
+2026-10-24T09:10:14.100Z | DXB-R02 | EVENT | auth_id=A1 authentication=success method=TACACS_REMOTE local_fallback_used=false; exec_authorization=pending
+2026-10-24T09:10:14.110Z | DXB-R02 | EVENT | auth_id=A1 exec_authorization=requested server=TAC-LOCAL
+2026-10-24T09:10:17.110Z | DXB-R02 | EVENT | auth_id=A1 exec_authorization server=TAC-LOCAL result=timeout elapsed_ms=3000; next_server=TAC-REMOTE
+2026-10-24T09:10:17.190Z | LON-AAA01 | SERVER | auth_id=A1 exec_authorization=accept source=10.10.99.3
+2026-10-24T09:10:17.210Z | DXB-R02 | EVENT | auth_id=A1 exec_authorization=success method=TACACS_REMOTE local_fallback_used=false
+2026-10-24T09:10:19.900Z | DXB-R02 | PROBE | phase=pre_08B target=10.20.99.12 TCP49 result=success; local_TACACS_still_unreachable=true
+2026-10-24T09:10:20.000Z | HARNESS | INJECTION | subtest=08B both_TACACS_servers_unreachable
+2026-10-24T09:10:21.000Z | DXB-R02 | EVENT | auth_id=B1 user=lab-breakglass server=TAC-LOCAL request=sent
+2026-10-24T09:10:24.000Z | DXB-R02 | EVENT | auth_id=B1 server=TAC-LOCAL result=timeout; server=TAC-REMOTE request=sent
+2026-10-24T09:10:27.000Z | DXB-R02 | EVENT | auth_id=B1 server=TAC-REMOTE result=timeout; next_method=local
+2026-10-24T09:10:27.020Z | DXB-R02 | EVENT | auth_id=B1 local_authentication=success; credentials=not_logged
+2026-10-24T09:10:27.030Z | DXB-R02 | EVENT | auth_id=B1 exec_authorization=requested method=TAC-GROUP; local_authorization_not_yet_attempted
+2026-10-24T09:10:30.030Z | DXB-R02 | EVENT | auth_id=B1 exec_authorization server=TAC-LOCAL result=timeout; next_server=TAC-REMOTE
+2026-10-24T09:10:33.030Z | DXB-R02 | EVENT | auth_id=B1 exec_authorization server=TAC-REMOTE result=timeout; next_method=local
+2026-10-24T09:10:33.050Z | DXB-R02 | EVENT | auth_id=B1 local_exec_authorization=success privilege=15; command_authorization=not_exercised
+2026-10-24T09:10:40.000Z | HARNESS | RESTORE | subtest=08C TAC-LOCAL reachable; explicit_authentication_denial policy enabled for synthetic user denied-user
+2026-10-24T09:10:41.000Z | DXB-R02 | EVENT | auth_id=C1 user=denied-user server=TAC-LOCAL request=sent
+2026-10-24T09:10:41.030Z | DXB-AAA01 | SERVER | auth_id=C1 source=10.10.99.3 result=reject reason=policy_denial
+2026-10-24T09:10:41.040Z | DXB-R02 | EVENT | auth_id=C1 authentication=failed next_server_attempted=false local_fallback_used=false
+2026-10-24T09:10:45.000Z | DXB-R02 | EVENT | auth_id=C2 access=physical_console user=lab-breakglass authentication_method=local result=success; console_exec_authorization=not_enabled
+2026-10-24T09:10:59.800Z | DXB-R02 | EVENT | phase=pre_08D synthetic_marker=LOG-BASE UDP514_send_attempts=10.10.99.10;10.20.99.10
+2026-10-24T09:10:59.820Z | DXB-LOG01 | COLLECTOR | phase=pre_08D synthetic_marker=LOG-BASE sender=10.10.99.3 received=true
+2026-10-24T09:10:59.830Z | LON-LOG01 | COLLECTOR | phase=pre_08D synthetic_marker=LOG-BASE sender=10.10.99.3 received=true
+2026-10-24T09:11:00.000Z | HARNESS | INJECTION | subtest=08D drop UDP514 only toward DXB-LOG01; LON receiver remains available
+2026-10-24T09:11:01.000Z | DXB-R02 | EVENT | synthetic_marker=LOG-D1 source=10.10.99.3 UDP514_send_attempts=10.10.99.10;10.20.99.10
+2026-10-24T09:11:01.030Z | LON-LOG01 | COLLECTOR | synthetic_marker=LOG-D1 sender=10.10.99.3 received=true
+2026-10-24T09:11:05.000Z | DXB-LOG01 | COLLECTOR | synthetic_marker=LOG-D1 received=false observation_window=2026-10-24T09:11:00.000Z/2026-10-24T09:11:05.000Z
+2026-10-24T09:11:10.000Z | HARNESS | RESTORE | local UDP514 path restored; no application retransmission injected
+2026-10-24T09:11:11.000Z | DXB-R02 | EVENT | synthetic_marker=LOG-D2 UDP514_send_attempts=10.10.99.10;10.20.99.10
+2026-10-24T09:11:11.020Z | DXB-LOG01 | COLLECTOR | synthetic_marker=LOG-D2 received=true
+2026-10-24T09:11:11.030Z | LON-LOG01 | COLLECTOR | synthetic_marker=LOG-D2 received=true
+2026-10-24T09:11:20.000Z | DXB-LOG01 | COLLECTOR | synthetic_marker=LOG-D1 still_absent=true search_window=2026-10-24T09:11:00.000Z/2026-10-24T09:11:20.000Z; broader_delivery_guarantee=not_established
+2026-10-24T09:11:59.800Z | DXB-R02 | EVENT | phase=pre_08E synthetic_trap=TRAP-BASE send_attempts=10.10.99.11;10.20.99.11 UDP162 user=nms-reader
+2026-10-24T09:11:59.820Z | DXB-NMS01 | COLLECTOR | phase=pre_08E synthetic_trap=TRAP-BASE authPriv_validation=success received=true
+2026-10-24T09:11:59.830Z | LON-NMS01 | COLLECTOR | phase=pre_08E synthetic_trap=TRAP-BASE authPriv_validation=success received=true
+2026-10-24T09:12:00.000Z | DXB-NMS01 | PROBE | subtest=08E SNMPv3_authPriv_poll target=10.10.99.3 UDP161 result=success
+2026-10-24T09:12:00.100Z | LON-NMS01 | PROBE | SNMPv3_authPriv_poll target=10.10.99.3 UDP161 result=success
+2026-10-24T09:12:00.900Z | HARNESS | INJECTION | subtest=08E change LON trap receiver sender/user secret mapping to mismatched value; polling_credentials_unchanged=true secrets=not_logged
+2026-10-24T09:12:01.000Z | DXB-R02 | EVENT | synthetic_trap=TRAP-E1 send_attempts=10.10.99.11;10.20.99.11 UDP162 user=nms-reader
+2026-10-24T09:12:01.020Z | DXB-NMS01 | COLLECTOR | synthetic_trap=TRAP-E1 authPriv_validation=success received=true
+2026-10-24T09:12:01.030Z | LON-NMS01 | COLLECTOR | synthetic_trap=TRAP-E1 authPriv_validation=failed reason=sender_user_secret_mismatch accepted=false
+2026-10-24T09:12:10.000Z | HARNESS | RESTORE | correct LON trap receiver sender/user secret mapping; secret=not_logged
+2026-10-24T09:12:11.000Z | DXB-R02 | EVENT | synthetic_trap=TRAP-E2 send_attempts=10.10.99.11;10.20.99.11 UDP162
+2026-10-24T09:12:11.020Z | DXB-NMS01 | COLLECTOR | synthetic_trap=TRAP-E2 authPriv_validation=success received=true
+2026-10-24T09:12:11.030Z | LON-NMS01 | COLLECTOR | synthetic_trap=TRAP-E2 authPriv_validation=success received=true
+2026-10-24T09:12:19.900Z | DXB-R02 | STATE | phase=pre_08F NTP_local_peer=10.10.99.13 reachable=true selected_peer=10.10.99.13; NTP_remote_peer=10.20.99.13 reachable=true
+2026-10-24T09:12:20.000Z | HARNESS | INJECTION | subtest=08F local NTP application stopped; remote NTP available; all TACACS service paths restored
+2026-10-24T09:12:36.000Z | DXB-R02 | STATE | NTP_local_peer=10.10.99.13 reachable=false; selected_peer=10.20.99.13 association=selected; selection_delay_not_a_design_guarantee=true

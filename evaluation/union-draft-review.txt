@@ -1,0 +1,49 @@
+Manual union experiment review. Never ingest evaluation/.
+These observations describe individual runs, not general quality guarantees.
+
+Coverage gate checks
+- PASS: FAIL-99 absent from corpus -> missing_evidence; generation skipped.
+- PASS: FAIL-08 with per-query 1 -> available=4 selected=1;
+  retrieval_gap; generation skipped.
+- PASS: FAIL-08 with per-query 20 -> available=4 selected=4;
+  evidence_review; draft generated. This establishes coverage only.
+
+FAIL-08 draft review (before explicit citation-format instruction)
+- FAIL, citation syntax: output used (S11), (S3), etc. The checker requires
+  [S11], [S3], etc. It reported no recognized citation labels.
+- FAIL, TACACS subtests: B1 local fallback was described as succeeding for
+  the console user. B1 records local authentication AND local exec authorization
+  after both servers time out. C2 separately records physical-console login.
+  Evidence: test-08-management-service-failure.txt, 08A-08C.
+- FAIL, NTP host: draft said the local NTP application on DXB-R02 stopped.
+  The local peer is 10.10.99.13; DXB-R02 reports selecting 10.20.99.13.
+  Evidence: same source, 08F.
+- NEEDS NARROWER SCOPE, syslog: state that LOG-D1 remained absent at the
+  local receiver during the recorded search window. Avoid a broader claim
+  about all missing logs or delivery guarantees. Evidence: same source, 08D.
+- NEEDS PRECISE WORDING, SNMP: remote receiver logged failed authPriv
+  validation for TRAP-E1, not successful acceptance. TRAP-E2 was accepted
+  after correction. Evidence: same source, 08E.
+
+Earlier FAIL-01 draft review
+- FAIL, routing direction: after WAN-A failure, R02 selects its eBGP route
+  via WAN-B (10.0.0.6), advertises it to R01 over iBGP, and R01 installs
+  next hop 10.10.254.2. Do not describe R02 selecting an iBGP route over WAN-B.
+  Evidence: test-01-wan-a-silent-loss.txt.
+
+Next draft checklist
+1. Citations use recognized [Snumber] labels from the current package.
+2. Each adjacent claim is supported by its cited source, not just a valid label.
+3. Separate subtests, authentication, exec authorization and console access.
+4. Distinguish service host, reporting device and receiver acceptance.
+5. Preserve marker IDs, observation windows and simulated-evidence status.
+6. Check route direction and avoid continuous-behavior claims from discrete records.
+
+Subsequent reviewer evaluation
+- Sentence-ID review completed but falsely accepted the wrong NTP host.
+- Fixed NTP pair: correct-host accepted; wrong-host also accepted (1/2 passed,
+  0 inconclusive). Reviewer invented explicit source support for the wrong host.
+- Model review remains advisory. All displayed answers remain unverified drafts.
+- A narrow local host-role check now flags explicit "NTP application on <router>"
+  wording using devices.csv and services.csv chunks. This is not general semantic
+  validation, and a non-match does not establish correctness. Not executed yet.

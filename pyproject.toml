@@ -1,0 +1,19 @@
+[project]
+name = "week2-rag-pipeline"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "streamlit>=1.40,<2",
+    "langchain-openai>=1,<2",
+    "langchain-community>=0.4.2",
+    "langchain-core>=1.6.12",
+    "langchain-pinecone>=0.2.13",
+    "langgraph>=1.2.18",
+    "rank-bm25>=0.2.2",
+]
+
+[dependency-groups]
+dev = [
+    "huggingface-hub>=2.3.0",
+    "tokenizers>=0.23.3",
+]

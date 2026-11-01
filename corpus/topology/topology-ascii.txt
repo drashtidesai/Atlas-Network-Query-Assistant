@@ -1,0 +1,40 @@
+ATLAS RETAIL | FICTIONAL REDUNDANT TWO-SITE LAB | REVISION 2.0
+
+       DUBAI: AS 65010                            LONDON: AS 65020
+
+   DXB users VLAN 110                          LON users VLAN 120
+   10.10.10.0/24; VIP .1                       10.20.20.0/24; VIP .1
+   Mgmt VLAN 199: 10.10.99.0/24                Mgmt VLAN 299: 10.20.99.0/24
+   Mgmt VIP 10.10.99.1                        Mgmt VIP 10.20.99.1
+
+   [DXB-SW01]==== Po1:2x1G ====[DXB-SW02]     [LON-SW01]==== Po1:2x1G ====[LON-SW02]
+       | Gi1/0/1                  |               | Gi1/0/1                  |
+       | .1Q trunk                |               | .1Q trunk                |
+       | Gi0/0/1                  |               | Gi0/0/1                  |
+   [DXB-R01]--- direct iBGP ---[DXB-R02]       [LON-R01]--- direct iBGP ---[LON-R02]
+       |       Gi0/0/2 pair        |               |       Gi0/0/2 pair        |
+       |       10.10.254.0/30      |               |       10.20.254.0/30      |
+       |                          |               |                          |
+       +--- WAN-A: 10.0.0.0/30 -------------------+                          |
+       |    DXB .1 <-> LON .2; 1G carrier A                                   |
+                                  +--- WAN-B: 10.0.0.4/30 -------------------+
+                                       DXB .5 <-> LON .6; 1G carrier B
+
+WAN ports: Gi0/0/0. BFD 300ms x3 on both WANs AND direct iBGP links.
+Normal route preference: WAN-A local-pref 200; WAN-B 150.
+VRRP: R01 priority 120, R02 100; physical WAN-down decrement 40.
+VRRP advertisements 1s; R01 preempt delay 30s; R02 no preempt delay.
+Each router has user/mgmt address .2 (R01) or .3 (R02).
+Each switch has mgmt .21 (SW01) or .22 (SW02).
+Po1 uses switch Gi1/0/2 AND Gi1/0/3 at both ends.
+
+SERVERS AT EACH SITE (all attached to SW01 management access ports):
+  Gi1/0/9  -> LOG01 .10   UDP 514
+  Gi1/0/10 -> NMS01 .11   UDP 161 polls / 162 traps
+  Gi1/0/11 -> AAA01 .12   TCP 49 TACACS+
+  Gi1/0/12 -> NTP01 .13   UDP 123
+  Server subnet: 10.10.99.0/24 DXB, 10.20.99.0/24 LON; gateway .1.
+
+All CE links are copper RJ45. Provider optics unknown, not invented.
+Servers are single-attached. Loss of ALL Po1 members partitions site VLANs.
+See links.csv for unambiguous physical endpoints and addressing.csv for IPs.

@@ -1,0 +1,80 @@
+ATLAS NETWORK EVIDENCE ASSISTANT — PRODUCT BUILD
+
+Problem and intended user
+Network engineers need to find how a documented design behaves during a failure,
+while distinguishing configuration intent from operational evidence. This product
+demonstrates evidence-based question answering over a fictional Atlas Retail lab.
+It does not monitor devices or change network configurations.
+
+Data preparation
+The repository contains network design notes, topology CSVs, intended configs,
+configuration snapshots and assigned synthetic failure timelines. Loading and
+chunking preserve structural units such as CSV rows, config sections and scenario
+timelines. Chunks retain source identity and line references in work/chunks.jsonl.
+Long management-service scenarios are split into service sections. Evaluation
+material is stored separately and must not be ingested.
+
+Retrieval
+The app offers local BM25 keyword search and optional hybrid search. BM25 retains
+network identifiers such as IP addresses, interface names and hyphenated names.
+Hybrid search combines Pinecone semantic candidates and BM25 using reciprocal-rank
+fusion. Pinecone uses the prebuilt index configured in rag_settings.py. An explicit
+scenario ID scopes synthetic logs to that scenario while keeping non-log sources.
+The product does not silently supplement selected results with hand-picked answers.
+
+Evidence and orchestration
+product_pipeline.py reuses existing retrieval and evidence modules. An evidence
+package holds full text, provenance and citation IDs. LangGraph routes according
+to missing scenarios, incomplete selection, empty evidence or evidence review.
+Known missing scenarios are detected locally before a paid semantic query.
+Scenario coverage is structural: it does not certify relevance or sufficiency.
+
+Generation and presentation
+Streamlit provides a question box, retrieval method, password inputs, source
+panels, coverage details, downloads and an explicit generation button. Nebius
+hosts the configured Qwen model through a LangChain client. One generation click
+uses one model call. The prompt restricts the answer to supplied evidence, requests
+citations and distinguishes simulated records from live measurements. Drafts stay
+unverified. A local NTP host-role check can withhold a known erroneous attribution.
+
+Testing and findings
+Incremental testing demonstrated correct missing-scenario and incomplete-scenario
+routes. Generated drafts exposed factual mistakes despite valid citation labels.
+An experimental model reviewer falsely accepted an NTP application placed on a
+router instead of the NTP server. A fixed correct/incorrect evaluation pair
+reproduced that failure. Therefore the product does not present model review as a
+correctness guarantee. check_product.py supplies two offline checks for current
+product retrieval and routing. The user must record actual final outcomes after
+running it and checking the browser; implementation alone is not a passing test.
+
+Security and limitations
+All corpus data is fictional. API credentials are entered into the local session,
+not saved by the app or exported with evidence. Hybrid requests send queries to
+Pinecone, and generation sends selected source text to Nebius. Private deployments
+would require authentication, secret management, access controls and a reviewed
+data policy. The demo has no production deployment claim. Broad-query coverage,
+retrieval relevance and natural-language accuracy remain limitations.
+
+Reproduction
+Install Python 3.12+ and uv. Run uv sync, then uv run python check_product.py,
+then uv run streamlit run app.py. Local retrieval works without API keys. Nebius
+generation requires an existing key. Hybrid mode additionally requires access to
+the populated Pinecone index. README.md contains demo steps and file descriptions.
+
+VIDEO OUTLINE (approximately 3 minutes)
+0:00 Explain the network-documentation problem and fictional dataset.
+0:25 Show the question input and local/hybrid choice.
+0:45 Retrieve FAIL-08 with evidence limit 20; inspect logs and source lines.
+1:20 Generate one cited draft; compare a citation with its source. Explain that
+     it remains unverified. If withheld, show the check and explain the limitation.
+2:00 Ask about FAIL-99; show missing evidence and disabled generation.
+2:25 Show the architecture/files and summarize the model-review false-pass finding.
+2:50 Close with reproducible setup and possible future semantic validation work.
+
+SUBMISSION CHECKLIST
+- Record actual final offline and browser test outcomes.
+- Do not show API keys in the recording or commit them to Git.
+- Include source code, pyproject.toml, updated uv.lock, corpus and chunks export.
+- Exclude .venv, credential files and local tool state using .gitignore.
+- Review Git status and staged diff before committing or pushing.
+- Add the GitHub URL and video link to the required submission location.

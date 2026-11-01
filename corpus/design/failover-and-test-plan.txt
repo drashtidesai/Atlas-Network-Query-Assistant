@@ -1,0 +1,45 @@
+Document FAIL-001 | Revision 2.0 | 2026-10-21
+Design expectations only: tests have NOT been run on devices.
+
+Normal: R01 holds both local VIPs; WAN-A is preferred at both sites by local preference 200. WAN-B eBGP remains established; R02 can prefer an iBGP-learned WAN-A route over its own local-preference-150 eBGP alternative.
+
+1. WAN-A silent loss while Ethernet remains up
+BFD on both WAN-A endpoints should fail near 900 ms under negotiated 300x3 conditions. eBGP is withdrawn; R02's WAN-B route becomes preferred and is shared to R01 over direct iBGP. R01 can remain VRRP master and forward to R02. This depends on route propagation/FIB update, so measure end-to-end loss rather than asserting 900-ms restoration.
+
+2. WAN-A physical failure
+BGP may react to interface-down before BFD. R01 VRRP priority falls 120 -> 80; healthy R02 priority 100 can preempt. In the transition, direct iBGP provides an alternate route. R01 recovery uses a 30-second VRRP preemption delay; BGP WAN-A preference may restore sooner and temporarily transit R01 while R02 still owns the VIP.
+
+3. R01 power failure
+VRRP backup takes the VIP after master-down detection (about 3.609 seconds at priority 100 and 1-second advertisements, not a measured SLA). Direct iBGP is lost, remote R01 eBGP fails, and WAN-B carries traffic. Users attached to the surviving switch can still reach R02 through the interswitch port channel.
+
+4. One interswitch member fails
+Port-channel1 retains the other member, with aggregate capacity reduced from two members to one; one flow was never guaranteed 2 Gbps. Verify LACP state and traffic. No VRRP or BGP role change is inherently required.
+
+5. SW01 fails
+R01 LAN trunk fails and its VLAN connected routes disappear. SW02 users use R02's VIP after election. Hosts/servers single-attached to SW01 are lost. Remote syslog/NMS/TACACS/NTP remain candidate services through WAN-B; no local server is magically migrated. The interrouter link remains a potential routed WAN path.
+
+6. Entire interswitch port channel fails
+The site VLANs partition. Both routers can become VRRP master in their isolated Layer 2 segments. This is a known limitation; restoration can cause gateway/ARP transitions. This topology is not advertised as tolerating every single logical link failure without partition. Test dual-active behavior explicitly.
+
+7. Direct iBGP link fails
+BFD removes the iBGP adjacency; both local eBGP circuits can still carry traffic. WAN preference consistency can differ between routers without the shared routes. A simultaneous WAN failure can blackhole the master gateway; no guarantee for this compound case.
+
+8. Management service failure
+TACACS tries local then remote server. Local authentication/authorization fallback applies on server error/unreachability, not an explicit deny. Test both a timeout and a rejection. Console uses local authentication; console authorization is not enabled. Each syslog destination receives independently over UDP; no replay/guaranteed delivery. Both SNMP managers may poll independently; both trap destinations must have matching SNMPv3 user settings.
+
+Read-only evidence commands
+show ip interface brief
+show vrrp brief
+show vrrp
+show track 10
+show bfd neighbors details
+show ip bgp summary
+show ip bgp 10.20.20.0
+show ip route 10.20.20.0
+show etherchannel summary
+show spanning-tree vlan 110
+show logging
+show snmp user
+show aaa servers
+show ntp associations
+Adapt London/Dubai route and VLAN values as appropriate. Capture before/after state, timestamps, loss duration, negotiated BFD timers, next hop, VIP owner and service reachability. Fault injection requires a real lab and is not performed by this corpus generator.

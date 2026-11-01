@@ -1,0 +1,181 @@
+! Atlas Retail fictional lab | revision 2.0 | 2026-10-21
+! INTENDED CONFIGURATION | Approved fictional design baseline; not running state.
+! Credential values are redacted; restore securely before lab use. Validate on exact hardware/image before use.
+hostname LON-R02
+no ip domain lookup
+ip domain name atlas.example
+service timestamps debug datetime msec localtime show-timezone
+service timestamps log datetime msec localtime show-timezone
+clock timezone UTC 0 0
+no ip http server
+no ip http secure-server
+username lab-breakglass privilege 15 secret 0 <REDACTED>
+enable secret 0 <REDACTED>
+aaa new-model
+!
+tacacs server TAC-LOCAL
+ address ipv4 10.20.99.12
+ timeout 3
+ key 0 <REDACTED>
+tacacs server TAC-REMOTE
+ address ipv4 10.10.99.12
+ timeout 3
+ key 0 <REDACTED>
+aaa group server tacacs+ TAC-GROUP
+ server name TAC-LOCAL
+ server name TAC-REMOTE
+ip tacacs source-interface GigabitEthernet0/0/1.299
+aaa authentication login default group TAC-GROUP local
+aaa authentication login CONSOLE local
+aaa authorization exec default group TAC-GROUP local
+aaa authorization commands 15 default group TAC-GROUP local
+aaa accounting exec default start-stop group TAC-GROUP
+aaa accounting commands 15 default start-stop group TAC-GROUP
+!
+ip access-list standard ADMIN-SOURCES
+ permit 10.10.99.0 0.0.0.255
+ permit 10.20.99.0 0.0.0.255
+ deny any log
+ip access-list standard SNMP-MANAGERS
+ permit host 10.10.99.11
+ permit host 10.20.99.11
+ deny any log
+logging buffered 65536 informational
+logging trap informational
+logging source-interface GigabitEthernet0/0/1.299
+logging host 10.20.99.10 transport udp port 514
+logging host 10.10.99.10 transport udp port 514
+snmp-server view NMS-READ iso included
+snmp-server group NMS-GROUP v3 priv read NMS-READ access SNMP-MANAGERS
+snmp-server user nms-reader NMS-GROUP v3 auth sha <REDACTED> priv aes 128 <REDACTED>
+snmp-server location ATLAS-LON-LAB
+snmp-server contact network-ops@atlas.example
+snmp-server trap-source GigabitEthernet0/0/1.299
+snmp-server enable traps snmp authentication linkdown linkup coldstart warmstart
+snmp-server host 10.20.99.11 version 3 priv nms-reader
+snmp-server host 10.10.99.11 version 3 priv nms-reader
+ntp source GigabitEthernet0/0/1.299
+ntp server 10.20.99.13 prefer
+ntp server 10.10.99.13
+ip ssh version 2
+ip ssh time-out 60
+ip ssh authentication-retries 3
+! Provision RSA host keys separately: crypto key generate rsa modulus 2048
+banner motd ^CAtlas Retail fictional training lab. Authorized lab access only.^C
+line con 0
+ login authentication CONSOLE
+ exec-timeout 15 0
+ logging synchronous
+line vty 0 15
+ access-class ADMIN-SOURCES in
+ login authentication default
+ authorization exec default
+ authorization commands 15 default
+ accounting exec default
+ accounting commands 15 default
+ transport input ssh
+ exec-timeout 10 0
+!
+ip routing
+track 10 interface GigabitEthernet0/0/0 line-protocol
+!
+interface Loopback0
+ description BGP-ROUTER-ID
+ ip address 10.255.20.2 255.255.255.255
+interface GigabitEthernet0/0/0
+ description WAN-B TO DXB-R02 Gi0/0/0 VIA CARRIER
+ ip address 10.0.0.6 255.255.255.252
+ no ip redirects
+ no ip proxy-arp
+ bfd interval 300 min_rx 300 multiplier 3
+ no bfd echo
+ no shutdown
+interface GigabitEthernet0/0/1
+ description 802.1Q TRUNK TO LON-SW02 Gi1/0/1
+ no ip address
+ no shutdown
+interface GigabitEthernet0/0/1.120
+ description USERS-VRRP-GATEWAY
+ encapsulation dot1Q 120
+ ip address 10.20.20.3 255.255.255.0
+ no ip redirects
+ no ip proxy-arp
+ vrrp 120 ip 10.20.20.1
+ vrrp 120 priority 100
+ vrrp 120 preempt
+ vrrp 120 timers advertise 1
+ vrrp 120 track 10 decrement 40
+interface GigabitEthernet0/0/1.299
+ description MANAGEMENT-VRRP-GATEWAY
+ encapsulation dot1Q 299
+ ip address 10.20.99.3 255.255.255.0
+ no ip redirects
+ no ip proxy-arp
+ vrrp 99 ip 10.20.99.1
+ vrrp 99 priority 100
+ vrrp 99 preempt
+ vrrp 99 timers advertise 1
+ vrrp 99 track 10 decrement 40
+interface GigabitEthernet0/0/2
+ description ROUTED-IBGP TO LON-R01 Gi0/0/2
+ ip address 10.20.254.2 255.255.255.252
+ no ip redirects
+ no ip proxy-arp
+ bfd interval 300 min_rx 300 multiplier 3
+ no bfd echo
+ no shutdown
+interface GigabitEthernet0/0/3
+ description UNUSED
+ shutdown
+interface range TenGigabitEthernet0/0/4 - 5
+ description UNUSED-SFP-PLUS-NO-OPTIC-INSTALLED
+ shutdown
+!
+ip prefix-list LOCAL-SITE seq 10 permit 10.20.20.0/24
+ip prefix-list LOCAL-SITE seq 20 permit 10.20.99.0/24
+ip prefix-list LOCAL-SITE seq 30 permit 10.255.20.1/32
+ip prefix-list LOCAL-SITE seq 40 permit 10.255.20.2/32
+ip prefix-list REMOTE-SITE seq 10 permit 10.10.10.0/24
+ip prefix-list REMOTE-SITE seq 20 permit 10.10.99.0/24
+ip prefix-list REMOTE-SITE seq 30 permit 10.255.10.1/32
+ip prefix-list REMOTE-SITE seq 40 permit 10.255.10.2/32
+ip prefix-list IBGP-ALLOWED seq 10 permit 10.20.20.0/24
+ip prefix-list IBGP-ALLOWED seq 20 permit 10.20.99.0/24
+ip prefix-list IBGP-ALLOWED seq 30 permit 10.255.20.1/32
+ip prefix-list IBGP-ALLOWED seq 40 permit 10.255.20.2/32
+ip prefix-list IBGP-ALLOWED seq 50 permit 10.10.10.0/24
+ip prefix-list IBGP-ALLOWED seq 60 permit 10.10.99.0/24
+ip prefix-list IBGP-ALLOWED seq 70 permit 10.255.10.1/32
+ip prefix-list IBGP-ALLOWED seq 80 permit 10.255.10.2/32
+route-map WAN-IN permit 10
+ match ip address prefix-list REMOTE-SITE
+ set local-preference 150
+!
+router bgp 65020
+ bgp router-id 10.255.20.2
+ bgp log-neighbor-changes
+ no bgp default ipv4-unicast
+ neighbor 10.0.0.5 remote-as 65010
+ neighbor 10.0.0.5 description EBGP-WAN-B
+ neighbor 10.0.0.5 timers 10 30
+ neighbor 10.0.0.5 fall-over bfd
+ neighbor 10.20.254.1 remote-as 65020
+ neighbor 10.20.254.1 description IBGP-SITE-PEER
+ neighbor 10.20.254.1 timers 10 30
+ neighbor 10.20.254.1 fall-over bfd
+ address-family ipv4 unicast
+  network 10.20.20.0 mask 255.255.255.0
+  network 10.20.99.0 mask 255.255.255.0
+  network 10.255.20.2 mask 255.255.255.255
+  neighbor 10.0.0.5 activate
+  neighbor 10.0.0.5 prefix-list REMOTE-SITE in
+  neighbor 10.0.0.5 prefix-list LOCAL-SITE out
+  neighbor 10.0.0.5 route-map WAN-IN in
+  neighbor 10.0.0.5 maximum-prefix 4 80 restart 5
+  neighbor 10.20.254.1 activate
+  neighbor 10.20.254.1 next-hop-self
+  neighbor 10.20.254.1 prefix-list IBGP-ALLOWED in
+  neighbor 10.20.254.1 prefix-list IBGP-ALLOWED out
+ exit-address-family
+!
+end
