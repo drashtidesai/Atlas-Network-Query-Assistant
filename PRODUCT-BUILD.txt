@@ -60,21 +60,3 @@ Install Python 3.12+ and uv. Run uv sync, then uv run python check_product.py,
 then uv run streamlit run app.py. Local retrieval works without API keys. Nebius
 generation requires an existing key. Hybrid mode additionally requires access to
 the populated Pinecone index. README.md contains demo steps and file descriptions.
-
-VIDEO OUTLINE (approximately 3 minutes)
-0:00 Explain the network-documentation problem and fictional dataset.
-0:25 Show the question input and local/hybrid choice.
-0:45 Retrieve FAIL-08 with evidence limit 20; inspect logs and source lines.
-1:20 Generate one cited draft; compare a citation with its source. Explain that
-     it remains unverified. If withheld, show the check and explain the limitation.
-2:00 Ask about FAIL-99; show missing evidence and disabled generation.
-2:25 Show the architecture/files and summarize the model-review false-pass finding.
-2:50 Close with reproducible setup and possible future semantic validation work.
-
-SUBMISSION CHECKLIST
-- Record actual final offline and browser test outcomes.
-- Do not show API keys in the recording or commit them to Git.
-- Include source code, pyproject.toml, updated uv.lock, corpus and chunks export.
-- Exclude .venv, credential files and local tool state using .gitignore.
-- Review Git status and staged diff before committing or pushing.
-- Add the GitHub URL and video link to the required submission location.

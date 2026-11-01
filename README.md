@@ -79,4 +79,4 @@ Evaluation fixtures remain outside the ingested corpus.
 | `check_product.py` | Two offline product checks |
 | `evaluation/` | Excluded evaluation material and known failures |
 
-Build explanation and video outline: `PRODUCT-BUILD.txt`.
+Build explanation: `PRODUCT-BUILD.txt`.
