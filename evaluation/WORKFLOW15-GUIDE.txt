@@ -1,0 +1,49 @@
+FIFTEEN WORKFLOW DEVELOPMENT EVALUATION
+
+Scope freeze: four router targets, five existing check domains, current three-role
+workflow, existing 27-file evidence corpus. No new agents or platforms for this
+evaluation. Cases are a visible development set, not held-out generalization proof.
+
+Prepare (user runs): uv run python prepare_workflows15.py --prepare
+Creates inputs/evaluation15/W01.txt through W15.txt, a case manifest and an
+unscored results template. These are authored fictional proposals, not device
+changes. Existing result scores are not overwritten. No API calls are made.
+
+Use Upload a proposal for every case, selecting the router, fault injection and
+request exactly as recorded in workflow15-cases.json. Enable three-agent mode.
+Never ingest evaluation labels into the corpus or agent prompts. W11 is an
+expected input rejection, not a model failure; do not pay for that case.
+
+Score separately:
+- Finding accuracy: correct / partial / incorrect / not applicable.
+- Workflow outcome: completed / expected_block / failed / not_run.
+- Evidence quality: supported / partial / unsupported / not applicable.
+- Human correction: distinguish answering missing intent from repairing mistakes.
+- Efficiency: model decisions, reported tokens, active seconds, full elapsed time.
+Unknown or unexecuted metrics stay null, never guessed. Correct expected rejection
+or unresolved closure may pass that specific workflow but not answer accuracy.
+No 15-case aggregate success rate until all cases have an explicit adjudication.
+Use original drafts for first-pass accuracy; do not replace their scores with
+human-corrected final outputs. Preserve traces and describe code versions/iterations.
+
+Human interactions:
+W02/W05: if asked intent, say accidental and undeployed; request proposal correction,
+not deployment. W04: intention is review/planning only; implementation unauthorized.
+W10: acknowledge only a limited review; never label unsupported setting validated.
+W13: cancel persistent-failure handoff and confirm no approved artifact.
+W14: stop/relaunch at awaiting approval; reopen same review and compare report hash.
+W15: request one real content revision (for example, clarify which claims are only
+documentary); inspect all affected sections; reject and confirm no approved artifact.
+Other cases: inspect report before any approval. Failures must not be marked passes
+merely because the app safely stopped.
+
+Current prerequisite before live evaluation
+The implementation still has known context-size and specialist-consistency issues.
+Prepare inputs offline first. Do not launch 15 paid reviews as a batch or keep
+restarting failed cases. Inspect/fix those issues, run appropriate offline checks,
+then verify one representative workflow before proceeding case by case.
+
+Submission
+Show one representative completed review and one failure/human boundary in <=5min.
+Report all evaluated outcomes, including rejected inaccurate drafts and exhausted
+budgets. Do not claim universal coverage or better performance than static code.

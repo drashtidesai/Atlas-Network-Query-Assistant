@@ -1,0 +1,21 @@
+USER-DEFINED PREFIX TEST - 8 November 2026
+Run 45d155d4539e432b8263b57fe24d6c6c; trace atlas-trace-45d155d453.json.
+User independently selected the change and judged the resulting report accurate.
+This is a SINGLE-DEVICE DXB-R01 three-agent review, not a device-bundle test:
+target_routers is absent. Generic default review goal, not a supplied scenario
+answer or human correction. No intermediate human clarification in history.
+
+Actual finding: LOCAL-SITE sequence 30, line 136,
+permit 10.255.10.1/32 -> deny 10.255.10.1/32.
+Report cites baseline/proposal L136, design L11, addressing L2, and outbound
+neighbor 10.0.0.2 prefix-list reference at proposal L172. Main finding and scope
+match the reported source evidence. Report appropriately qualifies live impact.
+
+Trace confirms final status complete and one final approve decision.
+10 model decisions, 14 tool counter, 14.142 active seconds.
+26031 input + 1498 output = 27529 reported tokens.
+Successful human-approved artifact workflow for this particular unseen change.
+User-reviewed main report correctness is positive evidence, not an independently
+scored all-claims pass. Broader control-plane/BFD/IGP considerations in the plan
+are conditional and not established by the cited prefix-list evidence alone.
+Do not claim live reachability verification or generalize to multi-device tests.

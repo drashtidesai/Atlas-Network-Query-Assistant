@@ -1,0 +1,26 @@
+W01 UNCHANGED PROPOSAL - 8 November 2026
+RETRY 11 NOVEMBER AFTER NO-CHANGE FIX
+User verified 50 offline tests pass (5.367s) before running fresh review.
+Run da01667520044617a044e9e80c70ddfc: trace confirms COMPLETE and final human
+approval, 4 decisions/4 tools, 13.672 active seconds. Reported usage 6655 input
++ 472 output = 7127 tokens. No intermediate clarification.
+Correctly recognizes unchanged proposal, cites computed comparison:L1 and
+distinguishes live state as unvalidated. No rollback/change verification needed.
+Plan includes extra conditional baseline/live-state checks; these are separate
+engineering considerations, not evidence of changes to the submitted proposal.
+Latest no-change workflow passes; original failure below is retained. This is a
+post-fix development retry, not evidence that the initial attempt passed.
+
+ORIGINAL ATTEMPT
+Run 9b4fcb035e024971bbe3e3697fe98ac8, user trace atlas-trace-9b4fcb035e.json.
+Outcome budget_exhausted: 18 decisions/tools, 11.907 active seconds,
+37223 input + 1211 output = 38434 reported tokens. No report or approval.
+Configuration 4 decisions; impact 14.
+The deterministic diff was empty and required_domains empty: the uploaded
+configuration matched baseline. Configuration prose instead claimed no proposal
+or clear diff had been provided, confusing no differences with missing input.
+Impact repeated the same documentary ask_human 14 times. Each returned
+recorded_unknown, no new human interrupt; model never advanced to investigation
+or submission. This differs from W10's repeated list_sources, but both involve
+successful observations repeated without progress. First attempt remains failed.
+No code change or paid retry performed for this finding.

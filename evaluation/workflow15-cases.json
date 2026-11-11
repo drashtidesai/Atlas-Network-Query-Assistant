@@ -1,0 +1,170 @@
+{
+  "version": 1,
+  "cases": [
+    {
+      "id": "W01",
+      "title": "Unchanged proposal",
+      "router": "DXB-R01",
+      "proposal": "inputs/evaluation15/W01.txt",
+      "fault": "none",
+      "request": "Review this configuration against baseline; report only actual changes.",
+      "expected_outcome": "No invented mismatch; conditional report for human approval.",
+      "proposal_sha256": "508ecebed0a38c89f850100e864b36372041ab04c5e9970c198a595fb263f3a4",
+      "review_mode": "three_agent"
+    },
+    {
+      "id": "W02",
+      "title": "BGP neighbor AS",
+      "router": "DXB-R01",
+      "proposal": "inputs/evaluation15/W02.txt",
+      "fault": "none",
+      "request": "Review this BGP proposal, its documented peer dependencies and required verification. Intent is not yet confirmed.",
+      "expected_outcome": "65020 -> 65030 for 10.0.0.2; correct peer evidence; no assumed intent.",
+      "proposal_sha256": "3a7c50f84c60e146310fd3805419d9b6eee67df1611ff5c38c5f7e6a7c183675",
+      "review_mode": "three_agent"
+    },
+    {
+      "id": "W03",
+      "title": "Dubai R02 VRRP",
+      "router": "DXB-R02",
+      "proposal": "inputs/evaluation15/W03.txt",
+      "fault": "none",
+      "request": "Review the proposed priority change and documented gateway dependencies. This is an undeployed proposal.",
+      "expected_outcome": "Group 110/interface .110 priority 100 -> 90; no live failover guarantee.",
+      "proposal_sha256": "993fe7cc6bc190de3ae5119b6f14db38d15f1d592eae086549b22a0e82070ba2",
+      "review_mode": "three_agent"
+    },
+    {
+      "id": "W04",
+      "title": "Planned BFD change",
+      "router": "DXB-R01",
+      "proposal": "inputs/evaluation15/W04.txt",
+      "fault": "none",
+      "request": "Review this planned, undeployed BFD change. Inspect the documented peer configuration and design; draft conditional verification and rollback objectives. Live negotiated timers are unavailable; deployment is not authorized.",
+      "expected_outcome": "300 -> 1000ms, multiplier 3 unchanged; London intended config read; no guaranteed negotiated timing or invented threshold.",
+      "proposal_sha256": "4dbc1376716e5223abd9da79c4cc38f73275ab01106891a091b5642928d04340",
+      "review_mode": "three_agent"
+    },
+    {
+      "id": "W05",
+      "title": "Uploaded prefix policy",
+      "router": "DXB-R01",
+      "proposal": "inputs/evaluation15/W05.txt",
+      "fault": "none",
+      "request": "Review this uploaded prefix-list proposal, its references and documented potential impact. Do not assume intent or live reachability.",
+      "expected_outcome": "LOCAL-SITE seq 10 permit -> deny; outbound neighbor 10.0.0.2; source lines and conditional scope correct.",
+      "proposal_sha256": "16bea732e669c886a69a7dab3f991196adbe8e60e2ea7377a237a85b49c2ec4c",
+      "review_mode": "three_agent"
+    },
+    {
+      "id": "W06",
+      "title": "Uploaded WAN shutdown",
+      "router": "DXB-R01",
+      "proposal": "inputs/evaluation15/W06.txt",
+      "fault": "none",
+      "request": "Review this uploaded interface proposal and documented link dependencies. Nothing has been deployed.",
+      "expected_outcome": "WAN Gi0/0/0 no shutdown -> shutdown; WAN-A dependency; no claim of observed outage.",
+      "proposal_sha256": "11a6b409887f37f76aa0cf9738aac518943b77d79ac24f818cb88d23e0b1ca35",
+      "review_mode": "three_agent"
+    },
+    {
+      "id": "W07",
+      "title": "London R01 BGP",
+      "router": "LON-R01",
+      "proposal": "inputs/evaluation15/W07.txt",
+      "fault": "none",
+      "request": "Review this London router BGP proposal using its baseline and documented peer configuration.",
+      "expected_outcome": "Neighbor 10.0.0.1 AS 65010 -> 65030; no Dubai-baseline substitution.",
+      "proposal_sha256": "fed1e8b09ff45507e3918417cc12657071973b3115a411289644e26c16fcaacb",
+      "review_mode": "three_agent"
+    },
+    {
+      "id": "W08",
+      "title": "London R02 VRRP",
+      "router": "LON-R02",
+      "proposal": "inputs/evaluation15/W08.txt",
+      "fault": "none",
+      "request": "Review this undeployed London VRRP proposal and relevant design.",
+      "expected_outcome": "User group 120/interface .120 priority 100 -> 90; do not confuse management VLAN 299 with a VRRP group.",
+      "proposal_sha256": "28370c770b158202602f7892ad799e65bc7b6969021a21f8765e40badcaf0061",
+      "review_mode": "three_agent"
+    },
+    {
+      "id": "W09",
+      "title": "Combined domains",
+      "router": "DXB-R01",
+      "proposal": "inputs/evaluation15/W09.txt",
+      "fault": "none",
+      "request": "Review every changed supported setting in this combined proposal, then prepare a conditional impact assessment and plan.",
+      "expected_outcome": "BGP and VRRP checked; neither omitted; uncertainty retained.",
+      "proposal_sha256": "35a160217f3ea34854160354fce3b5a2b5a3d15c1949befa0413d85ffbccff7e",
+      "review_mode": "three_agent"
+    },
+    {
+      "id": "W10",
+      "title": "Unsupported change",
+      "router": "DXB-R01",
+      "proposal": "inputs/evaluation15/W10.txt",
+      "fault": "none",
+      "request": "Review this proposal. Keep unsupported changes explicit and do not certify them.",
+      "expected_outcome": "Unsupported description change forces acknowledgment/cancel; acknowledgment retains limited_review.",
+      "proposal_sha256": "e5fef55823261de13a187a5001cbd72975035bcaa6e61000c2ff7f9114b2f45a",
+      "review_mode": "three_agent"
+    },
+    {
+      "id": "W11",
+      "title": "Wrong hostname",
+      "router": "DXB-R01",
+      "proposal": "inputs/evaluation15/W11.txt",
+      "fault": "none",
+      "request": "Review this uploaded proposal for the selected router.",
+      "expected_outcome": "Intake rejects mismatched hostname before model calls or review creation.",
+      "proposal_sha256": "3cd5349b572a81fbe2cd46c3e8d0e66a595a6c5737a20533cb3d964548cfcf17",
+      "review_mode": "three_agent"
+    },
+    {
+      "id": "W12",
+      "title": "Temporary comparison failure",
+      "router": "DXB-R01",
+      "proposal": "inputs/evaluation15/W12.txt",
+      "fault": "transient_compare",
+      "request": "Review this proposal; recover once from a temporary tool failure and disclose unresolved limits.",
+      "expected_outcome": "One injected comparison failure, bounded recovery, actual successful comparison before report.",
+      "proposal_sha256": "3a7c50f84c60e146310fd3805419d9b6eee67df1611ff5c38c5f7e6a7c183675",
+      "review_mode": "three_agent"
+    },
+    {
+      "id": "W13",
+      "title": "Persistent comparison failure",
+      "router": "DXB-R01",
+      "proposal": "inputs/evaluation15/W13.txt",
+      "fault": "permanent_compare",
+      "request": "Review this proposal. If required tools remain unavailable, stop with unresolved work rather than inventing findings.",
+      "expected_outcome": "Repeated required comparison failure hands off; cancel closes unresolved; no approved artifact.",
+      "proposal_sha256": "3a7c50f84c60e146310fd3805419d9b6eee67df1611ff5c38c5f7e6a7c183675",
+      "review_mode": "three_agent"
+    },
+    {
+      "id": "W14",
+      "title": "Pending review after restart",
+      "router": "DXB-R02",
+      "proposal": "inputs/evaluation15/W14.txt",
+      "fault": "none",
+      "request": "Review this proposal and prepare a report for human decision.",
+      "expected_outcome": "Restart at approval, reopen same ID/hash, approve saves exact report without rerunning completed investigation.",
+      "proposal_sha256": "993fe7cc6bc190de3ae5119b6f14db38d15f1d592eae086549b22a0e82070ba2",
+      "review_mode": "three_agent"
+    },
+    {
+      "id": "W15",
+      "title": "Revision and rejection",
+      "router": "DXB-R01",
+      "proposal": "inputs/evaluation15/W15.txt",
+      "fault": "none",
+      "request": "Review this proposal and prepare a conditional report; preserve limitations in every section.",
+      "expected_outcome": "Human revision updates affected sections and hash; subsequent rejection saves no approved artifact.",
+      "proposal_sha256": "16bea732e669c886a69a7dab3f991196adbe8e60e2ea7377a237a85b49c2ec4c",
+      "review_mode": "three_agent"
+    }
+  ]
+}

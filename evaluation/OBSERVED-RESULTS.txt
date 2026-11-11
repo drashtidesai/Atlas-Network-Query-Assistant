@@ -1,0 +1,91 @@
+ATLAS CHANGE REVIEW AGENT - OBSERVED RESULTS
+Recorded 4 November 2026
+
+Evidence basis
+Results below come from commands executed by the user and their pasted outputs,
+downloaded report contents, browser screenshot and explicit restart confirmation.
+The coding assistant did not execute tests or paid provider requests.
+These are incremental development observations, not a completed ten-case benchmark.
+
+Setup and offline checks
+uv sync initially failed on a OneDrive incompatible-hardlink error.
+uv sync --link-mode=copy succeeded with Python 3.12.15.
+uv run python -m unittest discover -s tests -v: 18/18 passed in 1.936s.
+Tests use scripted model responses and temporary SQLite stores; they check
+control flow, supported parsing, failure handling and approval boundaries, not
+real-model reasoning. CLI BGP preview also passed without provider calls/state writes.
+
+Live observation 1 - BGP investigation, clarification, revision and approval
+Run: eb795e0f51f44399a9438118baff2ec0
+Model selected baseline inspection, comparison, design lookup, BGP validation
+and human clarification for remote AS 65020 -> 65030. The user confirmed the
+change was accidental. A draft was submitted, revised and explicitly approved.
+Final output: complete; approved hash matched the report hash; local SQLite
+artifact recorded. Seven model decisions, seven tool calls, no model errors.
+Reported active processing: 34.954s; input tokens 25,371; output tokens 482.
+The first summary incorrectly attributed the AS to the design section as well
+as the baseline. Human revision corrected the source attribution. Completion
+therefore involved human correction; this was not autonomous factual accuracy.
+Report download was demonstrated in the UI.
+
+Live observation 2 - BFD and injected transient comparison failure
+Run: 27a4f1b859624f2783ad3ff0d34aa78a
+Correct deterministic finding: WAN BFD tx/min_rx 300 -> 1000ms; multiplier 3 unchanged.
+Saved state showed compare_configs attempts=2 and one tool failure, with fault
+transient_compare. The review completed after human approval and was downloaded.
+Eight model decisions, seven tool calls; active processing 11.329s.
+Reported input tokens 24,879; output tokens 712; no model errors.
+Recovery/control outcome passed. Summary quality was qualified: it overstated
+syntax validation and gave an unqualified ~3s detection estimate without live
+negotiated-peer evidence. Those statements remained in the approved report.
+Do not classify this as a fully accurate model answer.
+
+Live observation 3 - Uploaded prefix-list proposal and human correction
+Run: 534c94f6b7c747afb076f8fab9b35f3f
+User uploaded a full DXB-R01 proposal changing LOCAL-SITE sequence 10 from
+permit to deny for 10.10.10.0/24. The entry was correctly located at line 134.
+Agent requested clarification; user confirmed accidental change. Initial summary
+cited outbound BGP reference at line 208, although baseline has 181 lines.
+Read-only source inspection located the reference at line 172. Human revision
+corrected the summary. User provided the downloaded corrected report.
+Upload, change detection and revision demonstrated; initial citation accuracy failed.
+Active time, usage and decision counts were not supplied for this run.
+
+Live observation 4 - Interface review rejection
+Screenshot review ID: 6c6f4c863ddf46e3aae7013d5fd79cc9
+User followed interface-shutdown demo instructions. Screenshot confirmed rejected
+status and 'Human rejected the report; no final artifact saved.'
+Four model decisions; 8.6s active processing. Rejection boundary demonstrated.
+The complete interface-summary accuracy was not independently inspected here.
+
+Live observation 5 - Persistent comparison failure and cancellation
+User selected permanent_compare. UI reported compare_configs failed with
+simulated_compare_unavailable and required evidence/checks unresolved.
+After human cancellation the reported status was unresolved, with two model
+decisions and 1.5s active processing. Handoff and unresolved closure demonstrated.
+Run ID and exact tool-attempt count were not supplied; do not infer two comparison
+attempts merely from two model decisions. These were injected failures, not an
+observed external-service outage.
+
+Live observation 6 - Reopening saved reviews after restart
+User stopped and relaunched Streamlit, then explicitly confirmed previous review
+status, findings and approved-report downloads remained available.
+This demonstrates reopening completed reviews after restart. It does not yet
+demonstrate restarting at a pending human interrupt and completing that review.
+
+Timing and scoring limits
+Active processing excludes human waiting and is not full end-to-end task time.
+No human-inclusive under-five-minute success rate or formal 8/10 result is claimed.
+The live observations use different inputs from some planned CASES.txt fixtures
+(notably BFD instead of BGP for transient recovery); keep the plan separate.
+No live VRRP, combined-domain or unsupported-setting evaluation result recorded.
+No fresh-clone reproduction or multi-user/concurrency behavior demonstrated.
+
+Learnings
+Deterministic findings and workflow controls can succeed while generated prose
+contains wrong source attribution, fabricated line numbers or overstated validation.
+Human approval authorizes saving an artifact, not factual certification or deployment.
+Retain negative findings; do not overwrite approved reports to hide observed errors.
+Possible improvements: return numbered baseline evidence and structured policy
+references, constrain source citations, and make numeric/runtime limitations explicit.
+Those improvements have not been implemented or verified by this documentation update.

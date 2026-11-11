@@ -1,0 +1,332 @@
+﻿{
+    "version":  1,
+    "results":  [
+                    {
+                        "id":  "W01",
+                        "status":  "evaluated",
+                        "run_id":  "da01667520044617a044e9e80c70ddfc",
+                        "finding_accuracy":  "correct",
+                        "workflow_outcome":  "completed",
+                        "evidence_quality":  "supported",
+                        "model_decisions":  4,
+                        "reported_tokens":  7127,
+                        "active_seconds":  13.67200000025332,
+                        "human_inclusive_seconds":  null,
+                        "human_corrections":  [
+
+                                              ],
+                        "failure_analysis":  "Latest attempt completed; original 18-decision failure retained in attempts and W01-OBSERVED-RESULTS.txt. No change deployment or live-state validation claimed.",
+                        "attempts":  [
+                                         {
+                                             "run_id":  "9b4fcb035e024971bbe3e3697fe98ac8",
+                                             "workflow_outcome":  "failed",
+                                             "finding_accuracy":  "incorrect",
+                                             "model_decisions":  18,
+                                             "reported_tokens":  38434,
+                                             "active_seconds":  11.906999999890104,
+                                             "failure_analysis":  "Deterministic diff empty, correctly indicating unchanged proposal; configuration handoff falsely treated empty diff as missing proposal. Impact repeated the same documentary ask_human 14 times (recorded_unknown), exhausting decisions. No report or artifact."
+                                         },
+                                         {
+                                             "run_id":  "da01667520044617a044e9e80c70ddfc",
+                                             "workflow_outcome":  "completed",
+                                             "finding_accuracy":  "correct",
+                                             "model_decisions":  4,
+                                             "reported_tokens":  7127,
+                                             "active_seconds":  13.67200000025332,
+                                             "note":  "11 November retry after explicit no-change context and submission routing fix; final human approval recorded."
+                                         }
+                                     ]
+                    },
+                    {
+                        "id":  "W02",
+                        "status":  "evaluated",
+                        "run_id":  "ff7cc077b0904c4089adb3500df2656b",
+                        "finding_accuracy":  "partial",
+                        "workflow_outcome":  "failed",
+                        "evidence_quality":  "partial",
+                        "model_decisions":  12,
+                        "reported_tokens":  65590,
+                        "active_seconds":  132.8420000001788,
+                        "human_inclusive_seconds":  null,
+                        "human_corrections":  [
+
+                                              ],
+                        "failure_analysis":  "Three unsuccessful impact submissions exhausted stage retry bound; human cancelled to unresolved. No final report. Core configuration finding not a completed review."
+                    },
+                    {
+                        "id":  "W03",
+                        "status":  "evaluated",
+                        "run_id":  "44c8d422cd5d439eb5b157e76eab115f",
+                        "finding_accuracy":  "partial",
+                        "workflow_outcome":  "failed",
+                        "evidence_quality":  "partial",
+                        "model_decisions":  12,
+                        "reported_tokens":  57542,
+                        "active_seconds":  153.42200000025332,
+                        "human_inclusive_seconds":  null,
+                        "human_corrections":  [
+
+                                              ],
+                        "failure_analysis":  "Correct R02 VRRP priority change detected; report incorrectly claims design uses equal 100 priorities despite R01 120, with unsupported failback conclusions. Final trace status: rejected"
+                    },
+                    {
+                        "id":  "W04",
+                        "status":  "evaluated",
+                        "run_id":  "57912a9724114750b2ae1458839fce7c",
+                        "finding_accuracy":  "partial",
+                        "workflow_outcome":  "failed",
+                        "evidence_quality":  "partial",
+                        "model_decisions":  10,
+                        "reported_tokens":  38603,
+                        "active_seconds":  37.436999999918044,
+                        "human_inclusive_seconds":  null,
+                        "human_corrections":  [
+
+                                              ],
+                        "failure_analysis":  "Report reached approval but was rejected for incorrect faster-interval BFD negotiation claim and overstated operational timing/instability. Configuration comparison correct; technical report not accepted."
+                    },
+                    {
+                        "id":  "W05",
+                        "status":  "evaluated",
+                        "run_id":  "f1aba61aa5254b12bd6df93ca3a2b1d6",
+                        "finding_accuracy":  "partial",
+                        "workflow_outcome":  "completed",
+                        "evidence_quality":  "partial",
+                        "model_decisions":  10,
+                        "reported_tokens":  41134,
+                        "active_seconds":  29.108999999938533,
+                        "human_inclusive_seconds":  null,
+                        "human_corrections":  [
+
+                                              ],
+                        "failure_analysis":  "Core prefix seq10 change, outbound neighbor reference and rollback correct; accepted conditional review. Plan overstates whole-peer routing-table absence without assessing alternate paths."
+                    },
+                    {
+                        "id":  "W06",
+                        "status":  "evaluated",
+                        "run_id":  "176758ad81cd47438ce30eb0a9c68523",
+                        "finding_accuracy":  "partial",
+                        "workflow_outcome":  "completed",
+                        "evidence_quality":  "partial",
+                        "model_decisions":  10,
+                        "reported_tokens":  50112,
+                        "active_seconds":  24.062999999616295,
+                        "human_inclusive_seconds":  null,
+                        "human_corrections":  [
+
+                                              ],
+                        "failure_analysis":  "Correct interface shutdown and WAN-A link identified. User accepted conditional offline review. London VRRP failover depends on unverified carrier propagation/local tracking; unchanged interfaces do not establish service reachability. Final human decision in supplied trace."
+                    },
+                    {
+                        "id":  "W07",
+                        "status":  "evaluated",
+                        "run_id":  "caeed05e97ca4ab181f90372fcfcfa8e",
+                        "finding_accuracy":  "partial",
+                        "workflow_outcome":  "completed",
+                        "evidence_quality":  "partial",
+                        "model_decisions":  10,
+                        "reported_tokens":  41538,
+                        "active_seconds":  29.609000000171363,
+                        "human_inclusive_seconds":  null,
+                        "human_corrections":  [
+
+                                              ],
+                        "failure_analysis":  "Latest trace confirms final approval and complete. Typed local/remote/peer AS and rollback distinction correct; broader impact/plan assertions remain partial. Earlier failures and repeat runs retained.",
+                        "attempts":  [
+                                         {
+                                             "run_id":  "69d2c5ed10864837baeb259aa122c069",
+                                             "workflow_outcome":  "failed",
+                                             "finding_accuracy":  "incorrect",
+                                             "reported_tokens":  30478,
+                                             "failure_analysis":  "Rejected for remote-AS/local-AS confusion and invented peer impacts. First unresolved attempt retained in W07-OBSERVED-RESULTS.txt. Actual uploaded-file SHA256 verified. Manifest hashes use LF; prepared Windows files use CRLF."
+                                         },
+                                         {
+                                             "run_id":  "caeed05e97ca4ab181f90372fcfcfa8e",
+                                             "workflow_outcome":  "completed",
+                                             "finding_accuracy":  "partial",
+                                             "model_decisions":  10,
+                                             "reported_tokens":  41538,
+                                             "active_seconds":  29.609000000171363,
+                                             "note":  "Post typed-fact fix repeat; local-AS/remote-AS/peer-AS/rollback distinction correct. Residual broad impact/policy and synthetic-log assumptions. No final decision yet."
+                                         }
+                                     ]
+                    },
+                    {
+                        "id":  "W08",
+                        "status":  "evaluated",
+                        "run_id":  "94d0194012a84840acd537d662780ddf",
+                        "finding_accuracy":  "partial",
+                        "workflow_outcome":  "completed",
+                        "evidence_quality":  "partial",
+                        "model_decisions":  10,
+                        "reported_tokens":  39725,
+                        "active_seconds":  24.108999999938533,
+                        "human_inclusive_seconds":  null,
+                        "human_corrections":  [
+
+                                              ],
+                        "failure_analysis":  "Correct LON-R02 group120/.120 priority100-\u003e90 and rollback; user conditional acceptance. Increased-master-risk, premature-preemption and traffic symmetry claims require validation."
+                    },
+                    {
+                        "id":  "W09",
+                        "status":  "evaluated",
+                        "run_id":  "4b63ef417cf44a708721072a918c7506",
+                        "finding_accuracy":  "partial",
+                        "workflow_outcome":  "reviewed_and_rejected",
+                        "evidence_quality":  "partial",
+                        "model_decisions":  12,
+                        "reported_tokens":  60834,
+                        "active_seconds":  36.59399999980815,
+                        "human_inclusive_seconds":  null,
+                        "human_corrections":  [
+
+                                              ],
+                        "failure_analysis":  "Latest combined review reached report and final human rejection for risk. Evidence recovery progressed; technical wording remains partial. Original exhausted and bounded-unresolved attempts retained in observation notes.",
+                        "attempts":  [
+                                         {
+                                             "run_id":  "ce46d72297554e7f8ca8787b971c7370",
+                                             "workflow_outcome":  "failed",
+                                             "model_decisions":  16,
+                                             "reported_tokens":  85798,
+                                             "failure_analysis":  "Combined-domain review exhausted reported tokens in impact stage without final report. Configuration checks and tool sequence inspected in supplied trace; no paid retry."
+                                         },
+                                         {
+                                             "run_id":  "4b63ef417cf44a708721072a918c7506",
+                                             "workflow_outcome":  "reviewed_and_rejected",
+                                             "finding_accuracy":  "partial",
+                                             "model_decisions":  12,
+                                             "reported_tokens":  60834,
+                                             "active_seconds":  36.59399999980815,
+                                             "note":  "Combined report produced; human rejected proposal for unacceptable risk, not an evidence-submission block. No approved artifact."
+                                         }
+                                     ]
+                    },
+                    {
+                        "id":  "W10",
+                        "status":  "evaluated",
+                        "run_id":  "fc55d6ee97514d948168f72c8870aa94",
+                        "finding_accuracy":  "partial",
+                        "workflow_outcome":  "completed",
+                        "evidence_quality":  "partial",
+                        "model_decisions":  10,
+                        "reported_tokens":  25436,
+                        "active_seconds":  36.26599999982864,
+                        "human_inclusive_seconds":  null,
+                        "human_corrections":  [
+
+                                              ],
+                        "failure_analysis":  "11 November screenshot confirms complete and approved report saved; limited_review gate preserved. Content remains partial due categorical impact wording. First failed attempt retained.",
+                        "attempts":  [
+                                         {
+                                             "run_id":  "22fd60954d3d490d9dd8b61282825d24",
+                                             "workflow_outcome":  "failed",
+                                             "model_decisions":  18,
+                                             "reported_tokens":  39079,
+                                             "failure_analysis":  "Unsupported detection and restart persistence observed; continuation repeated list_sources 14 times and exhausted decisions. See W10-OBSERVED-RESULTS.txt. Actual uploaded-file SHA256 verified. Manifest hashes use LF; prepared Windows files use CRLF."
+                                         },
+                                         {
+                                             "run_id":  "fc55d6ee97514d948168f72c8870aa94",
+                                             "workflow_outcome":  "completed",
+                                             "finding_accuracy":  "partial",
+                                             "evidence_quality":  "partial",
+                                             "model_decisions":  10,
+                                             "reported_tokens":  25436,
+                                             "active_seconds":  36.26599999982864,
+                                             "note":  "Final completion and approved save confirmed by user screenshot; limited_review preserved, content assessed separately as partial."
+                                         }
+                                     ]
+                    },
+                    {
+                        "id":  "W11",
+                        "status":  "evaluated",
+                        "run_id":  null,
+                        "finding_accuracy":  "not applicable",
+                        "workflow_outcome":  "expected_block",
+                        "evidence_quality":  "not applicable",
+                        "model_decisions":  0,
+                        "reported_tokens":  0,
+                        "active_seconds":  null,
+                        "human_inclusive_seconds":  null,
+                        "human_corrections":  [
+
+                                              ],
+                        "failure_analysis":  "User screenshot confirms W11 upload rejected at Create review: Proposal must contain the selected router\u0027s hostname. Intake rejection occurs before checkpoint creation/provider execution; no run ID. Active time not measured."
+                    },
+                    {
+                        "id":  "W12",
+                        "status":  "evaluated",
+                        "run_id":  "4265b88c6054404cbdc0de0256fdfa13",
+                        "finding_accuracy":  "partial",
+                        "workflow_outcome":  "completed",
+                        "evidence_quality":  "partial",
+                        "model_decisions":  12,
+                        "reported_tokens":  40546,
+                        "active_seconds":  51.42200000002049,
+                        "human_inclusive_seconds":  null,
+                        "human_corrections":  [
+
+                                              ],
+                        "failure_analysis":  "Recovery observed with transient_compare: inspect_proposal failed, first compare_configs also failed, next compare_configs succeeded with diff. Injection currently occurs once per tool name, so two failures occurred rather than the intended single run-wide failure. Reached report approval; final saving pending. Earlier fault=none attempt retained. User screenshot subsequently confirmed complete and approved save; injection count qualification retained.",
+                        "attempts":  [
+                                         {
+                                             "run_id":  "936f155a5b314f6cb513a360ec46532e",
+                                             "workflow_outcome":  "completed",
+                                             "evaluation_status":  "input_mismatch",
+                                             "fault":  "none",
+                                             "model_decisions":  10,
+                                             "reported_tokens":  38025,
+                                             "active_seconds":  44.282,
+                                             "note":  "Completed ordinary BGP review; no injected failure. Does not test transient recovery."
+                                         }
+                                     ]
+                    },
+                    {
+                        "id":  "W13",
+                        "status":  "evaluated",
+                        "run_id":  "7fba17e40906430f8c7c4f688cabb315",
+                        "finding_accuracy":  "not applicable",
+                        "workflow_outcome":  "expected_block",
+                        "evidence_quality":  "not applicable",
+                        "model_decisions":  3,
+                        "reported_tokens":  7153,
+                        "active_seconds":  3.5630000000819564,
+                        "human_inclusive_seconds":  null,
+                        "human_corrections":  [
+
+                                              ],
+                        "failure_analysis":  "permanent_compare repeatedly failed; human cancelled blocked handoff to unresolved. No approved artifact in trace. Expected failure containment, not successful configuration review."
+                    },
+                    {
+                        "id":  "W14",
+                        "status":  "evaluated",
+                        "run_id":  "9f993a0c5c9c4bf2ace0359c843d20d9",
+                        "finding_accuracy":  "not applicable",
+                        "workflow_outcome":  "failed",
+                        "evidence_quality":  "not applicable",
+                        "model_decisions":  6,
+                        "reported_tokens":  16096,
+                        "active_seconds":  9.04700000025332,
+                        "human_inclusive_seconds":  null,
+                        "human_corrections":  [
+
+                                              ],
+                        "failure_analysis":  "Impact agent called configuration-only submit_review after clarification; permission check blocked it. Closed unresolved. Final approval not reached, so pending-final-approval restart was not tested in this attempt."
+                    },
+                    {
+                        "id":  "W15",
+                        "status":  "evaluated",
+                        "run_id":  "d546c9dbbaaa4f2381f9cd25c969680d",
+                        "finding_accuracy":  "partial",
+                        "workflow_outcome":  "expected_block",
+                        "evidence_quality":  "partial",
+                        "model_decisions":  11,
+                        "reported_tokens":  42901,
+                        "active_seconds":  83.40500000002794,
+                        "human_inclusive_seconds":  null,
+                        "human_corrections":  [
+                                                  "Requested neighbor-scoped summary, impact and plan; alternate paths/live traffic explicitly unassessed."
+                                              ],
+                        "failure_analysis":  "Human revision regenerated report, then human rejected; verify distinct submit_plan hashes and no artifact in trace. Workflow rejection is expected; initial content needed human correction."
+                    }
+                ]
+}

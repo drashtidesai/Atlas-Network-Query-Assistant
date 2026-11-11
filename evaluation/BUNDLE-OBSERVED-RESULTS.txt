@@ -1,0 +1,68 @@
+COORDINATED BUNDLE - OBSERVED RUN, 7 November 2026
+
+FOLLOW-UP RUN WITH COMPACT CONTEXT (supersedes pending verification below)
+User confirmed 45 tests pass, 3.604 seconds.
+Run: 4b45214484be40f18c35c2e45a195708
+Trace: Downloads/atlas-trace-4b45214484.json
+Outcome: awaiting_approval; not saved/complete. One answered human clarification.
+10 model decisions; calls counter 20 (includes blocked attempts, not 20 successful
+lookups). 19.658 active seconds. Configuration/impact/plan decisions: 5/4/1.
+Reported usage: 35010 input + 2571 output = 37581 tokens, down 54.6% compared
+with previous incomplete run's 82777. This is one observed comparison, not a
+general benchmark or a measured monetary saving. Time to final approval was
+not measured; active processing excludes human waiting.
+Planning submitted on its first decision. Earlier roles still repeated known
+questions and attempted tools outside their finishing allowance.
+Configuration facts: both devices correctly detected at 300 -> 1000 ms with
+multiplier 3 unchanged, per-device source IDs and hashes present.
+Report accuracy NOT passing: summary denies direct BGP dependencies despite
+LLD L10 explicitly enabling neighbor fall-over bfd; plan then verifies BGP.
+Impact presents negotiated timing as fact despite no live evidence; synthetic
+logs are offered as possible operational justification. Coordinated plan lacks
+explicit device order/intermediate verification and an agreed stop threshold.
+Do not infer deployment approval from awaiting_approval or report-save approval.
+No additional paid revision or new run requested at this checkpoint.
+
+PREVIOUS RUN
+
+Run: d174c6f69357402cad5df81ef4ea348c
+Trace supplied by user: Downloads/atlas-trace-d174c6f693.json
+Devices: DXB-R01 and LON-R01; planned BFD 300 -> 1000 ms, multiplier 3.
+Outcome: budget_exhausted at reported_tokens. No completed report or approval.
+12 model decisions; 13 tools; 18.3 active seconds shown in UI.
+Reported usage: 81256 input + 1521 output = 82777 tokens.
+Role decisions: configuration 5, impact 5, plan 2.
+
+Observed unnecessary work:
+- read_design after inspect_proposal already included required design.
+- repeated retrieval of registered evidence and dependency lookups.
+- attempted read_source and lookup_topology after finishing restriction; both
+  returned investigation_allowance_complete, consuming recovery decisions.
+- planner passed file paths (not line IDs) to get_evidence, then asked about
+  operational evidence already declared unavailable in the request.
+- repeated bundle findings, source metadata and prior specialist prose in context.
+
+Accuracy issue: handoff claimed a mixed 300/1000-ms configuration would operate
+at 300 ms until both endpoints changed. This is not supported by RFC 5880's
+per-direction negotiation and maximum-interval calculation. See sections 6.8.2,
+6.8.3, 6.8.4 and 6.8.7:
+https://www.rfc-editor.org/rfc/rfc5880
+No completed report exists, so neither report accuracy nor coordinated plan
+quality can be marked passing. Existing intended configs do not prove live state.
+
+Changes prepared after inspecting this trace (not yet tested or live-evaluated):
+- state-only model input; no replay of previous assistant/tool exchange.
+- per-role handoffs; avoid repeated diff/check/device-map text and source metadata.
+- evidence ID:text excerpts, full ledger retained; packet character allowance
+  16000, evidence contribution at most 6000. Character limits are not token caps.
+- explicit flags for excerpted fields; prompt oversize stops locally, no paid retry.
+- new bundles submit configuration once mandatory inspection completes; impact
+  requires both lookup types and has 3-turn allowance; planner can submit on first
+  turn after impact. Final human approval and existing budgets remain unchanged.
+- context_size events record message and tool-schema characters, never API secrets.
+- prompts direct known operational gaps into the report instead of another call,
+  and disallow unsupported transition-timing guarantees.
+
+Prior offline verification: 41 tests passed, 3.640 seconds (user output).
+Tests 42-45 added for context duplication, bounded excerpts, error preservation
+and early submission prerequisites. Await user test output. No new paid run.

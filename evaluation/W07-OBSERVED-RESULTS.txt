@@ -1,0 +1,63 @@
+W07 LONDON BGP - 8 November 2026
+11 NOVEMBER AFTER TYPED-AS FIX
+User confirmed 54 tests pass (4.334s). First post-fix screenshot run
+14fe00195b1348c780115491d8e663e6 reached approval at 11 decisions/35.8s,
+correct core AS distinction but imprecise "bidirectional mismatch" phrasing.
+No trace/final decision supplied for that attempt; do not infer token counts.
+
+User independently reran: caeed05e97ca4ab181f90372fcfcfa8e.
+Trace confirms awaiting_approval, 10 decisions/22 counted tools, 29.609 active
+seconds, 38837 input + 2701 output = 41538 reported tokens. No clarification.
+Typed facts correctly separate local AS unchanged at 65020, neighbor 10.0.0.1
+remote-AS 65010 -> 65030, and documented DXB-R01 local AS 65010. Source address
+and BGP-process lines cited. Plan rollback restores the neighbor entry, not the
+local process. This fixes the observed core confusion in the repeat output.
+Full report remains partial: unsupported categorical no-other-impact/design-
+compliance claims and treating synthetic logs as deployment feedback. No final
+human approval/rejection supplied yet. Pending review is not workflow completion.
+Keep all earlier attempts below; do not select only favorable repeats.
+
+SECOND ATTEMPT AFTER NAMED SUBMISSION FIX
+User verified 46 offline tests pass in 4.225 seconds.
+Run 69d2c5ed10864837baeb259aa122c069; trace atlas-trace-69d2c5ed10.json.
+Outcome rejected by human after reaching awaiting_approval. No accuracy pass.
+10 decisions, 19 tool counter, 14.391 active seconds.
+28645 input + 1833 output = 30478 reported tokens.
+No intermediate human clarification; final reject recorded in trace.
+Named submission binding advanced all three stages without the prior allowance
+failure. It did not solve reasoning accuracy: configuration summary first
+misrepresented neighbor remote-as as the router AS; impact and plan propagated it.
+The deterministic finding retained router bgp 65020, neighbor 10.0.0.1,
+remote-AS 65010 -> 65030 at line 158. Local AS was not changed.
+Impact used repeated natural-language strings with literal find_references,
+obtaining no useful peer configuration evidence. No corpus source reads/searches
+were performed. Cited design/topology IDs cannot substantiate the claimed
+LON-R02 local AS or alleged conversion of unchanged iBGP to eBGP.
+Rollback incorrectly proposed reverting the router AS to 65010, demonstrating
+why saving/approval must not be equated with implementation readiness.
+Preserve both attempts. Do not spend on another W07 retry before submission.
+Next planned testing: unsupported-change boundary (W10), then restart/resume
+if time permits. Freeze features; disclose semantic dependency limitations.
+
+FIRST ATTEMPT
+Run ee90935a04d0471db5a875639a1f5056, user trace atlas-trace-ee90935a04.json.
+Outcome unresolved after human cancel. No approved artifact.
+8 decisions, 11 counted tool attempts; 18174 input + 900 output = 19074 tokens.
+UI showed 8.0 active seconds before cancellation. Remained configuration role.
+Actual change correctly detected: LON-R01 neighbor 10.0.0.1 remote-as 65010 to
+65030, line 158; local BGP context router bgp 65020 unchanged.
+Model initially confused remote-AS change with London's AS and asked intent.
+Human clarified intentional undeployed review, no deployment authorization,
+and requested comparison against the documented peer's local AS.
+Three repeated inspections, repeated questions, and requests for get_evidence/
+read_source outside the finishing allowance followed. Two identical refused
+requests triggered generic tool-failure handoff. No report-quality pass.
+
+Narrow fix: provider_factory now specifies named tool_choice for the sole ready
+submission (submit_review/submit_impact/submit_plan) and disables parallel calls
+for that submission. Investigation remains free tool choice. Required checks,
+evidence IDs, budgets and human report approval unchanged. Conditional submission
+may explicitly retain unanswered intent/authorization; it grants no permission.
+New test 46 mocks provider construction/binding; no paid request. Not yet run.
+Provider enforcement and live completion still require a fresh run after tests.
+Retain original failure as first attempt; never overwrite with retry outcome.

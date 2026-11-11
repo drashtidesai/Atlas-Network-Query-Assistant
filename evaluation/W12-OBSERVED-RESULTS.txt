@@ -1,0 +1,12 @@
+W12 TRANSIENT COMPARISON FAILURE - 11 November 2026
+Run 4265b88c6054404cbdc0de0256fdfa13. Trace verifies transient_compare active.
+inspect_proposal -> simulated_compare_unavailable;
+compare_configs -> simulated_compare_unavailable;
+compare_configs -> successful diff.
+Recovery demonstrated, but there were TWO injected failures because injection
+uses per-tool attempt counters. Intended once-per-run failure behavior is not
+fully met; do not describe this as exactly one failed attempt.
+Status awaiting_approval; no final save verified. 12 decisions/17 tools,
+51.422 active seconds, 37955 input + 2591 output = 40546 reported tokens.
+Core local/remote-AS distinction correct; broad impact claims remain conditional.
+Earlier completed run 936f155a5b used fault=none and does not prove recovery.

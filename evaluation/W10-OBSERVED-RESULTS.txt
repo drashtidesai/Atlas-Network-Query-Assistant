@@ -1,0 +1,44 @@
+W10 UNSUPPORTED CHANGE AND RESTART - 8 November 2026
+POST-FIX RETRY - 11 NOVEMBER
+Final update: user screenshot confirms status COMPLETE and exact human-approved
+report saved to SQLite. Counters unchanged at 10 decisions and 36.3 seconds.
+Workflow completed; report wording remains a separate partial-quality finding.
+Run fc55d6ee97514d948168f72c8870aa94, supplied trace fc55d6ee97.
+Status awaiting_approval (not yet complete/saved). 10 decisions, 14 tools,
+36.266 active seconds; 24364 input + 1072 output = 25436 reported tokens.
+One unsupported-change acknowledgment; final disposition limited_review and
+unsupported description lines preserved. Required reference/topology checks now
+executed and both specialist submissions reached, without source-list loop.
+Control-flow progression improved. Report still overstates no operational impact
+from an unsupported change; record content quality separately from scope gate.
+Await final human decision; retain first failed attempt below.
+
+ORIGINAL ATTEMPT
+Run 22fd60954d3d490d9dd8b61282825d24.
+User trace: Downloads/atlas-trace-22fd60954d.json.
+
+Partial successes observed:
+- Detected description UNUSED -> RESERVED-FUTURE as unsupported after 1 model
+  decision, about 1 active second. Explicit limited-review acknowledgment/cancel.
+- User stopped/restarted Streamlit and reopened saved review. Screenshot retained
+  same question, unsupported lines, 1/18 decisions and 1.0 active seconds.
+- Human acknowledged limited scope; trace records acknowledgment accurately.
+This is restart persistence at an unsupported-change interrupt, NOT formal W14
+pending-final-approval evaluation. Do not score W14 as passed from this alone.
+
+Overall limited-review completion FAILED:
+status budget_exhausted at 18/18 model decisions, 18 counted tools,
+12.109 active seconds. Input 38661 + output 418 = 39079 reported tokens.
+Configuration role 4 decisions, impact 14, no planner/report/approval.
+Impact called list_sources successfully 14 times in succession, never performed
+required find_references/lookup_topology or submitted impact. No API/tool error.
+Budget stopped repetitive successful calls as configured, but failed to finish.
+Required supported domains were empty; unsupported descriptions remained explicit.
+Configuration handoff also overclaimed no operational effect/observed impact
+despite unsupported scope and no live observations; not an accuracy pass.
+
+Possible cause to investigate later: compact latest_results omits inventory
+payload and tool identity; repeated identical successful reads lack a dedicated
+loop detector. This is a hypothesis, not proof of model internal reasoning.
+No further paid retry or budget increase. Preserve this failure in submission.
+User-confirmed latest offline suite still 46 passing tests; no code changed.

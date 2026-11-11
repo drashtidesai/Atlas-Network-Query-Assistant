@@ -1,0 +1,45 @@
+15-CASE DEVELOPMENT EVALUATION - 11 November 2026
+
+All 15 cases have an observed attempt and adjudicated record. Latest available
+outcomes are summarized here. Runs span code revisions and human feedback; this
+is a development evaluation, not a frozen-version independent benchmark. Original
+failures and retries must not be described as first-pass successes.
+
+7 approved/saved workflows:
+W01 unchanged proposal; W05 prefix list; W06 WAN shutdown; W07 London BGP;
+W08 London VRRP; W10 limited unsupported review; W12 transient recovery.
+W01 main finding correct. Other reports are scored partial for remaining impact,
+evidence or plan qualifications. Human approval is not an accuracy certificate.
+
+1 report reviewed and proposal rejected for risk:
+W09 combined BGP/VRRP changes. Latest run 4b63ef417cf44a708721072a918c7506
+reached final review, then human rejected. 12 decisions, 36.594 active seconds,
+57698 input + 3136 output = 60834 tokens. No approved artifact. Earlier W09
+attempts exhausted tokens or stopped unresolved; retain them as failures.
+
+3 expected input/failure/decision boundaries observed:
+W11 wrong hostname rejected before review creation/provider execution.
+W13 persistent comparison failure closed unresolved after bounded failures.
+W15 report revised (different hash), then rejected without approved artifact.
+W15 content required human correction; expected rejection is a workflow outcome.
+
+4 failed acceptance/completion objectives:
+W02 unresolved after evidence-submission failures.
+W03 report rejected for incorrect VRRP interpretation.
+W04 report rejected for incorrect BFD negotiation/timing claims.
+W14 failed before final approval; restart-at-final-approval objective NOT reached.
+
+Additional qualifications:
+- W10 unsupported-interrupt restart persistence was observed separately; this
+  does not make W14 final-approval persistence pass.
+- W12 recovered after two injected failures (once per tool name), not the
+  intended single run-wide failure. Injection fidelity remains imperfect.
+- Completed report counts are not full technical accuracy or deployment safety.
+- Active processing excludes human waiting. Unknown metrics remain null.
+- No 15/15, overall reasoning-accuracy rate or first-pass success rate is claimed.
+- Latest user-run offline suite: 60 passing tests, 4.982 seconds. Scripted/mocked
+  control tests differ from real-provider evaluation.
+
+Sources: workflow15-results.json, individual observation notes, user-provided
+traces/screenshots and final human decisions. Do not ingest this answer/score
+material into the agent evidence corpus.

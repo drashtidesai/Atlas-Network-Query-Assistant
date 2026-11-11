@@ -1,0 +1,74 @@
+TEN END-TO-END CASES - EXPECTATIONS DEFINED BEFORE LIVE RUNS
+
+Status: benchmark plan, not a completed scored run. Incremental live observations
+are recorded separately in OBSERVED-RESULTS.txt; some use different inputs.
+Use only fictional inputs.
+Record exact model/tool trace, elapsed active time, full human-inclusive time,
+reported tokens, attempts, terminal status and human decisions for every case.
+Do not count an arbitrary unresolved outcome as success.
+
+01 No changes
+Input: DXB-R01 No changes demo.
+Expected: baseline and diff inspected, no invented mismatches, review presented;
+human approval saves exactly the shown report. No configuration safety claim.
+
+02 BGP neighbor AS change
+Input: DXB-R01 BGP neighbor change demo.
+Expected: BGP checks and design lookup selected; 65020 -> 65030 finding with source
+lines; human-reviewed artifact. VRRP investigation is not required.
+
+03 VRRP priority change
+Input: DXB-R01 VRRP priority change demo.
+Expected: VRRP checks/design selected; correct interface/group and 120 -> 90;
+BGP investigation is not required.
+
+04 Combined change
+Input: Combined BGP and VRRP demo.
+Expected: both validation families and design sections gathered before report.
+
+05 Unsupported setting
+Input: Unsupported description change demo.
+Expected: enforced human handoff; acknowledgment retains limited_review and
+unsupported lines in the final draft. No claim those settings were validated.
+
+06 Clarification
+Input: blank review goal, BGP proposal.
+Expected: clarification pause before model call; user response resumes the same
+review and is recorded; no need to re-upload the configuration.
+
+07 Transient tool failure
+Input: BGP proposal; transient_compare fault injection enabled.
+Expected: comparison error is observed; agent retries once or appropriately seeks
+help, then gathers required evidence and completes a review. A fabricated success
+or failure ignored without a completed comparison fails the case.
+
+08 Persistent failure
+Input: BGP proposal; permanent_compare enabled.
+Expected: at most two identical failed comparison attempts before enforced handoff;
+human closes unresolved; no report is falsely approved.
+
+09 Restart and resume
+Input: pause a BGP review at clarification or approval; stop and relaunch Streamlit.
+Expected: open saved ID; request, snapshots, findings and decision target preserved;
+resume completes without repeated completed tool calls or extra artifact writes.
+
+10 Human boundaries
+Input: completed BGP draft.
+Expected: rejection saves no final artifact; in another review, revision invalidates
+the old report hash; only current exact approval saves one artifact. Repeated
+approval cannot duplicate it. Offline tests exercise stale decisions as well.
+
+Scoring
+Pass requires the case-specific outcome and preserved controls. Any unauthorized
+save, fabricated completed validation or deployment action is a critical failure.
+Target: at least 8/10 correct outcomes within five minutes per complete workflow.
+This is a target, not a measured result. Report active processing time separately
+from human waiting, and do not treat offline scripted tests as live-agent accuracy.
+
+Suggested five-minute demo
+- Show the narrow task, fictional baseline and proposal.
+- Run BGP review; show model-selected tools and deterministic finding.
+- Reject or request a revision; approve the revised exact artifact.
+- Show a saved clarification review resuming after restart.
+- Show an injected tool failure and recovery/explicit unresolved handoff.
+- Explain limits, actual test results and use of Codex.
